@@ -1,0 +1,346 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+  body{
+    background: #000;
+    color: whitesmoke;
+    overflow-x: hidden;
+  }
+  .imgw2{
+    float: none;
+  }
+ .par{
+  /* float: left; */
+  float: right;
+ }
+
+ @media (max-width: 480px) {  
+  .imgw{
+    width: 70%;
+    /* display: none; */
+  } 
+  .vidh{
+    padding: 20px;
+    font-weight: 700;
+  } 
+}
+ 
+ @media (min-width: 480px) {  
+  .imgw2 {  
+    display: block; 
+    float: right;
+
+  } 
+ 
+}
+ @media (max-width: 480px) {  
+  .imgw2 {  
+    margin-left: 18px;
+    height: 100%;
+    /* width: 90%; */
+
+  } 
+  .m3{
+    /* display: none; */
+    width: 70%;
+    height: 95%;
+  }  
+}
+.bb{
+  font-weight: 800;
+}
+
+
+
+/* for vid bg------------ */
+
+.video-background {
+  position: relative;
+  height: 80vh; /* Full height section */
+  overflow: hidden;
+}
+
+.background-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the video covers the entire area */
+  transform: translate(-50%, -50%);
+  z-index: 0; /* Keeps the video behind other elements */
+}
+
+.overlay {
+  position: relative;
+  z-index: 1; /* Places the text above the video */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: white;
+  font-size: 2rem;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.3); /* Optional semi-transparent overlay */
+}
+
+</style>
+
+<body>
+  {% include "nav.html" %}
+<br>
+
+
+
+  <center>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Jewish Date: <b class="text-danger h5">{{ year }}</b> </h5> 
+            </div>
+            <div class="col-md-6">
+                <h5>Gregorian Date: <b class="text-danger h5">{{ date }}</b></h5>
+            </div>
+        </div>
+    <br>
+    <h5 class="text-warning">TETRAGRAMATON COMBINATIONS FOR {{gee}} ( {{montth}} )</h5>
+    <br>
+        
+    <!-- -----------------TETRAGRAMATON------------------------------- -->
+    
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            {% if month_code %}
+            <!-- <img src="{% static 'images/1A' %}.png" width="50px" alt="Image"><br><br> -->
+    
+            <img class="imgw" src="{% static 'images/' %}{{ month_code }}.png" width="30%" alt="Image">
+            {% endif %}
+          </div>
+    
+          <div class="col">
+            {% if month_code2 %}
+            <!-- <img src="{% static 'images/1' %}.png" width="50px" alt="Image"><br><br> -->
+            <img class="imgw" src="{% static 'images/' %}{{ month_code2 }}.png" width="30%" alt="Image">
+          
+             {% endif %}
+          </div>
+        </div>
+      </div>
+    
+
+      <div class="containner mt-2">
+        {% if month_code3 %}
+        <img class="m3" src="{% static 'images/' %}{{ month_code3 }}.png"width="80%" alt="Image">
+      
+         {% endif %}
+      </div>
+    </center>
+      
+      <!-- ----------------TETRAGRAMATON ENDS---------------------------------------------- -->
+<br> <br>
+<div class="text-center">
+<a href="{% url 'jewishbirthday' %}">Check you jewish birthday here</a>
+    </div> <br>
+
+ <!-- --------------------------------------------------------------------------------    -->
+<img class="imgw" src="{% static 'images2/line2.png' %}" width="100%" alt="Image">
+
+<!-- video bg------------------------ -->
+
+<section class="video-background">
+  <video autoplay muted loop class="background-video">
+    <source src="{% static 'videos/vid1.mp4' %}" type="video/mp4"> 
+    Your browser does not support the video tag.
+  </video>
+  <div class="overlay">
+    <h1 class="vidh">Look Within</h1>
+  </div>
+</section>
+
+  <!-- ------------------------------------------------------------------------- -->
+  <div class="container-fluid mt-4">
+    <h2 class="text-center text-danger bb"> <u>TIKKUN HANEFESH</u> </h2> <br>
+    <div class="row">
+    <div class="col-md-5 mt-3">
+      <img class="imgw2" src="{% static 'images2/tik.png' %}" width="70%" height ='84%' alt="Image">
+    </div>
+    <div class="col-md-7 mt-4 text-warning par">
+      <p>Historically, kabbalists have practiced this healing meditation <b class="text-light">(Tikkun Hanefesh)</b> twice daily,
+        seven days a week, to rejuvenate and restore all body organs. <br><br>
+        Known as <b class="text-light">Tikkun Hanefesh</b>,
+         or the Correction of the Soul, it is one of the most potent healing methods in Kabbalah. <br>
+          Using the chart as a reference, place your right hand over the specific part of the body 
+           where you wish to channel energy.<br> The body parts are listed, and each box is numbered for 
+            easy navigation, starting from box #1 (the skull (keter)) and continuing to box #17 (the feet (malchut)). <br>
+             Focus on the Aramaic letter combination corresponding to the area of the body you are 
+             concentrating on, and Visualize  Light flowing through your right hand into that part.</p>
+
+        <!-- <div class="text-center"> -->
+        <h5 class="text-light">Watch the short video below to get the hang of it.</h5>
+
+        <video width="340" height="360" controls muted>  
+          <source src="{% static 'videos/tikkun_video5.mp4' %}" type="video/mp4">  
+          <source src="{% static 'videos/tikkun_video5.ogg' %}" type="video/ogg">  
+          Your browser does not support the video tag.  
+      </video>
+      <!-- </div>  -->
+    </div>
+    
+
+    </div>
+
+  </div>
+
+  <div class="container text-warning">
+    <h3 class="text-center text-danger">Benefits of Tikkun Hanefesh</h3>
+    <p>The Tikkun HaNefesh is used for healing and is a powerful tool for regeneration and revitalization of the body's organs. 
+      It promotes a deeper connection to divine attributes like compassion and patience, potentially leading to holistic well-being. 
+      Regular practice, as kabbalists often do, may enhance both physical health and spiritual awareness.</p>
+
+<div>
+  <p>Performing Tikun HaNefesh generally involves a couple of steps but few of these steps are very important. They are;<br>
+
+    Intention (Kavanah): Set a clear intention for your Tikun HaNefesh practice. This could be to heal a specific aspect of your soul, like anger or fear, or to cultivate a particular virtue, such as compassion.
+    
+    Meditation and Visualization: Use meditation to connect with your higher self or divine light. Visualize the healing process, imagining the release of negativity and the infusion of positive energy. <br>
+    
+    Acts of Kindness: Integrate acts of kindness and compassion into your daily life, which aligns with the intention of healing your soul. This could include helping others, charitable donations, or simply being a listening ear. <br>
+     
+    
+    Remember that Tikun HaNefesh is a personal and ongoing process. Regular practice, intention, and dedication can lead to significant spiritual growth and healing.</p>
+</div>
+
+
+
+  </div>
+ 
+
+
+<!-- ----------------------------------------------------------------------------------------   -->
+  <img class="imgw" src="{% static 'images2/line2.png' %}" width="100%" alt="Image"> <br> <br>
+  <!-- -------------------------------------------------------------------------------------------- -->
+
+<div class="container  text-warning"> 
+  <h3 class="text-center text-danger bb">THE PRAYER OF THE KABBALIST KNOWN AS THE ANA BEKO'ACH </h3>  <br>
+
+    <p>The Ana beKo'ach, often referred to as the 42-letter Name of God, 
+      is a profound and mystical formula that holds significant importance 
+      in Kabbalistic tradition. This unique composition consists of 42 letters 
+      meticulously arranged into seven distinct sentences, with each sentence containing six words. 
+      This structured format is not merely for aesthetic purposes; it carries deep spiritual meaning. 
+      Each of the seven sentences corresponds to various elements of the cosmos, including the seven days 
+      of the week, seven specific angels, and a particular heavenly body, thereby linking the microcosm of 
+      human experience with the macrocosm of the universe.</P>
+
+      <p>The origins of the letters that form the Ana beKo'ach can be traced back to 
+        the first 42 letters of the Book of Genesis, the foundational text of the Hebrew Bible. 
+        Kabbalists believe that this connection is not coincidental; rather, it signifies a direct 
+        link to the very moment of Creation itself. The letters are thought to encapsulate the divine 
+        energy that was present at the beginning of time, serving as a bridge to the original state of 
+        existence before the world became fragmented and corrupted.</p>
+  
+<p>When practitioners engage in the Ana beKo'ach meditation, they are not merely reciting words; 
+  they are embarking on a spiritual journey that allows them to reconnect with this primordial energy. 
+  Each time one meditates on a specific sequence of these letters, they are believed to access the 
+  untainted spiritual Light that was present during Creation. This practice not only enhances one's 
+  spiritual awareness but also enriches one’s life with positive energy and clarity of purpose.</p>
+
+  <p>The transformative power of the Ana beKo'ach meditation lies in its ability to elevate the practitioner's consciousness, 
+    aligning them with the divine flow of the universe. As individuals immerse themselves in this meditation, 
+    they may experience a profound sense of peace, insight, and connection to something greater than themselves. 
+    This experience is often described as a return to a state of purity and enlightenment, where the distractions 
+    of the material world fade away, and the true essence of one’s being can emerge.</p>
+
+    <p>In summary, the Ana beKo'ach is much more than a collection of letters; 
+      it is a sacred tool for spiritual transformation. Through its intricate design and 
+      deep connections to the cosmos, it offers practitioners a pathway to rediscover the 
+      uncorrupted energies of Creation, allowing them to live more fully in alignment with their 
+      highest selves.</p>
+
+      <div>
+          <img src="{% static 'images2/Ana.png' %}" width="90%" height ='84%' alt="Image">
+      </div>
+
+<body>
+    <br><br><br><br>
+<div style="text-align: center;">
+<h1>SHALOM ALECHEM</h1>
+
+<h1>THIS SITE HAS BEEN MOVED  <a href="https://mysticalpath.online/">here</a></h1> <br>
+</div>
+<br><br>
+
+
+
+<!-- ------------------------------------------------------------------------------------------ -->
+<img class="imgw" src="{% static 'images2/line2.png' %}" width="100%" alt="Image"> <br> <br>
+<!-- --------------------------------------------------------------------------------------- -->
+
+<div class="container text-warning">
+  <h3 class="text-center text-danger bb">THE 72 NAMES OF GOD</h3>
+  <div>
+    <small class="text-danger text-center">SCAN AND READ THE NAMES FROM RIGHT TO LEFT</small>
+
+    <img src="{% static 'images2/72.jpg' %}" width="100%" height ='84%' alt="Image">
+  </div> <br>
+
+  <p>In the Zohar, the ancient Kabbalist Rav Shimon bar Yochai posits that it was Moses, rather than God, 
+    
+    who parted the Red Sea, facilitating the Israelites' escape from Pharaoh and the Egyptian army. To achieve
+     this miraculous feat, Moses harnessed the power of certainty along with an advanced spiritual technology. 
+     He possessed a formula that granted him access to the Quantum realm of nature. <br><br>
+
+    For the past 2000 years, this formula, hidden within the Zohar, has remained undisclosed. <br><br>
+    
+    This formula is 72 sequences made up of Hebrew letters that hold remarkable power, enabling 
+    the transcendence of the laws of nature, including those governing human behavior.</p>
+
+    <p>Though the formula is embedded within the Biblical narrative of the parting of the Red Sea, 
+      it remained a secret known only to a select group of kabbalists, with no rabbi, scholar, or 
+      priest aware of its existence. These kabbalists understood that one day, the formula would be 
+      unveiled to the world at the right moment. <br><br>
+
+      Today, after approximately 2,000 years of obscurity, modern seekers have the opportunity 
+      to access this power and energy by learning about and invoking the 72 Names of God. <br><br>
+            
+      The 72 Names consist of three-letter sequences that function as an index to specific 
+      spiritual frequencies. By simply observing the letters and closing your eyes to visualize 
+      them, you can establish a connection with these potent frequencies.</p>
+
+</div>
+  
+<br>
+<div class="container">
+  <h4>Get The 72 Names of God App:</h4> <br>
+  <div class="row">
+    <div class="col">
+      &#8594; <a href="https://play.google.com/store/apps/details?id=org.namesofgodpro.namesofgodpro&pcampaignid=web_share"target="_blank">72 NAMES OF GOD PRO Version</a> <br>
+       (Paid Version: AutoScan , and Index included) <br>
+    </div>
+    <div class="col">
+      &#8594; <a href="https://play.google.com/store/apps/details?id=org.nameslite.nameslite&pcampaignid=web_share"target="_blank">72 NAMES OF GOD </a>  <br>(Free Version: Basic) <br>
+    </div>
+  </div>
+</div>
+<!-- </div> -->
+
+<br>
+{% include "footer.html" %}
+
+</body>
+</html>
+
+
+
+
+
+

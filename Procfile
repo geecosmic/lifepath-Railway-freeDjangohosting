@@ -1,0 +1,1 @@
+web: gunicorn lifepath.wsgi --log-file -

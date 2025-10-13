@@ -1,0 +1,148 @@
+  <!-- Footer -->
+  <footer
+          class="text-center text-lg-start text-white"
+          style="background-color: #1c2331"
+          >
+    <!-- Section: Social media -->
+    <section
+             class="d-flex justify-content-between p-3"
+             style="background-color: #6351ce"
+             >
+      <!-- Left -->
+      <div class="pt-2">
+        <!-- <span>Get connected with us on </span> -->
+        <span style="flex: right;"><a href="{% url 'donate' %}">DONATE</a></span>
+
+      </div>
+      
+    </section>
+    <!-- Section: Social media -->
+
+    <!-- Section: Links  -->
+    <section class="">
+      <div class="container text-center text-md-start mt-5">
+        <!-- Grid row -->
+        <div class="row mt-3">
+          <!-- Grid column -->
+          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+            <!-- Content -->
+            <h6 class="text-uppercase fw-bold">Geecosmic Inc.</h6>
+            <hr
+                class="mb-4 mt-0 d-inline-block mx-auto"
+                style="width: 60px; background-color: #7c4dff; height: 2px"
+                />
+            <p>
+              <a class="text-warning" href="{% url 'privacy-page' %}">Privacy</a></h4>
+
+            </p>
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-2">
+            <!-- Links -->
+            <h6 class="text-uppercase fw-bold">Daily Periods</h6>
+            <hr
+                class="mb-4 mt-0 d-inline-block mx-auto"
+                style="width: 60px; background-color: #7c4dff; height: 2px"
+                />
+            <p>
+              <!-- <ul class="perd2"> -->
+                    
+                {% for period in periods %}
+                    <h6>
+                        <a href="{% url 'main_page_with_detail' type='period' id=period.id %}">{{ period.title }}</a>
+
+                    </h6>
+                {% endfor %}
+            
+            </p>
+            
+          </div>
+          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-2">
+            <!-- Links -->
+            <h6 class="text-uppercase fw-bold">Yearly Periods</h6>
+            <hr
+                class="mb-4 mt-0 d-inline-block mx-auto"
+                style="width: 60px; background-color: #7c4dff; height: 2px"
+                />
+            <p>
+              
+                    
+                {% for yearlyperiod in yearlyperiods %}
+                    <h6>
+                        <a href="{% url 'main_page_with_detail' type='yearlyperiod' id=yearlyperiod.id %}#here2">{{ yearlyperiod.title }}</a>
+
+                    </h6>
+                {% endfor %}
+            
+            </p>
+            
+          </div>
+          
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+            <!-- Links -->
+            <h6 class="text-uppercase fw-bold">Useful links</h6>
+            
+            <hr
+                class="mb-4 mt-0 d-inline-block mx-auto"
+                style="width: 60px; background-color: #7c4dff; height: 2px"
+                />
+                {% for category in categories %}
+                <p><a class="dr" href="{% url 'tikkun'%}"><i>Home</i></a>
+                </p>
+                {% endfor %}    
+            <p>
+              <a href="{% url 'tikkun'%}" class="text-white">Home</a> 
+            </p>
+            <p>
+              <a href="{% url 'path_numbers'%}" class="text-white">Numerology</a>
+            </p>
+            
+            <p>
+              <a href="#!" class="text-white">Help</a>
+            </p>
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+            <!-- Links -->
+            <h6 class="text-uppercase fw-bold">Contact</h6>
+            <hr
+                class="mb-4 mt-0 d-inline-block mx-auto"
+                style="width: 60px; background-color: #7c4dff; height: 2px"
+                />
+            <p><i class="fas fa-home mr-3"></i> New York, NY 10012, US</p>
+            <p><i class="fas fa-envelope mr-3"></i> info@mysticalpath.online</p>
+            <p><i class="fas fa-phone mr-3"></i> +234 8136285727</p>
+            <p><i class="fas fa-print mr-3"></i> +234 8183884347</p>
+          </div>
+          
+          
+          <!-- Grid column -->
+        </div>
+        
+        <!-- Grid row -->
+      </div>
+      <div>
+        <!-- <h5><a href="/donate.html/"></a>DONATE</h5> -->
+      </div>
+    </section>
+    <!-- Section: Links  -->
+
+    <!-- Copyright -->
+    <div
+         class="text-center p-3"
+         style="background-color: rgba(0, 0, 0, 0.2)"
+         >
+      © Geecosmic INC. 2024 Copyright:
+      <a class="text-white" href="#"
+         ></a
+        >
+    </div>
+    <!-- Copyright -->
+  </footer>
