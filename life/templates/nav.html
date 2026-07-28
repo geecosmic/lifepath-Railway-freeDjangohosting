@@ -1,26 +1,168 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+  <div class="container">
+    <!-- Brand / Logo -->
+    <a class="navbar-brand" href="/">
+      {% comment %} <i class="bi bi-infinity me-2"></i> {% endcomment %}
+      <img src="{% static 'images/logo.png' %}" alt="CoolLogo" style="height: 40px; margin-right: 10px;">
+      <span>Kabbalistic Tools</span>
+    </a>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+    <!-- Mobile Toggle -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" 
+            aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <!-- <li class="nav-item active">
-        <a class="nav-link" href="/">Homex<span class="sr-only">(current)</span></a>
-      </li> -->
-      <li class="nav-item active">
-        <a class="nav-link" href="/">Home</a>
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="{% url 'path_numbers' %}">Numerology</a>
-      </li>
-      
-      <li class="nav-item active">
-        <a class="nav-link" href="{% url 'main_page' %}">Periods</a>
-      </li>
-      
-    </ul>
-    
+    <!-- Nav Links -->
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item">
+          <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/">
+            <i class="bi bi-house-door me-1 d-lg-none"></i>Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.path == '/path-numbers/' or request.path == '/path_numbers/' %}active{% endif %}" href="{% url 'path_numbers' %}">
+            <i class="bi bi-calculator me-1 d-lg-none"></i>Numerology
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.path == '/cycles/' %}active{% endif %}" href="{% url 'main_page' %}">
+            <i class="bi bi-calendar3 me-1 d-lg-none"></i>Cycles
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.path == '/contact/' %}active{% endif %}" href="{% url 'contact' %}">
+            <i class="bi bi-envelope me-1 d-lg-none"></i>Contact
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>
+
+<!-- Spacer for fixed navbar -->
+<div style="height: 72px;"></div>
+
+<style>
+  #mainNav {
+    background: rgba(10, 10, 15, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 1rem 0;
+    transition: all 0.3s ease;
+    z-index: 1030;
+  }
+
+  #mainNav.scrolled {
+    background: rgba(10, 10, 15, 0.95);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    padding: 0.6rem 0;
+  }
+
+  /* Brand */
+  .navbar-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #e8e6e1 !important;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    transition: color 0.3s ease;
+  }
+  .navbar-brand i {
+    color: #c9a84c;
+    font-size: 1.5rem;
+  }
+  .navbar-brand:hover {
+    color: #c9a84c !important;
+  }
+
+  /* Nav Links */
+  .navbar-nav .nav-link {
+    color: #9ca3af !important;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.5rem 1.2rem !important;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+
+  .navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: #c9a84c;
+    transition: width 0.3s ease;
+    border-radius: 2px;
+  }
+
+  .navbar-nav .nav-link:hover,
+  .navbar-nav .nav-link.active {
+    color: #e8e6e1 !important;
+  }
+
+  .navbar-nav .nav-link:hover::after,
+  .navbar-nav .nav-link.active::after {
+    width: 60%;
+  }
+
+  /* Mobile Menu */
+  .navbar-collapse {
+    background: rgba(10, 10, 15, 0.98);
+    border-radius: 16px;
+    margin-top: 0.75rem;
+    padding: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  @media (min-width: 992px) {
+    .navbar-collapse {
+      background: transparent;
+      border-radius: 0;
+      margin-top: 0;
+      padding: 0;
+      border: none;
+    }
+  }
+
+  /* Toggler */
+  .navbar-toggler {
+    border: 1px solid rgba(201, 168, 76, 0.3);
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  .navbar-toggler:focus {
+    box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.2);
+  }
+  .navbar-toggler:hover {
+    border-color: #c9a84c;
+    background: rgba(201, 168, 76, 0.1);
+  }
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28201, 168, 76, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  }
+</style>
+
+<script>
+  // Add shadow on scroll
+  window.addEventListener('scroll', function() {
+    const nav = document.getElementById('mainNav');
+    if (window.scrollY > 30) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  });
+</script>

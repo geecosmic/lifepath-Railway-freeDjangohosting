@@ -1,96 +1,498 @@
 {% load static %}
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-   
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    
-  <title>Privacy Policy</title>
+    <!-- Bootstrap 5.3 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
+
+    <title>Privacy Policy</title>
 
     <style>
-        body{
-            font: 'ROBOTO';
-            background-color: rgb(43, 36, 36);
-            color: aliceblue;
-        }
+      :root {
+        --bg-primary: #0a0a0f;
+        --bg-secondary: #111118;
+        --bg-card: #13131f;
+        --text-primary: #e8e6e1;
+        --text-secondary: #9ca3af;
+        --text-muted: #6b7280;
+        --accent-gold: #c9a84c;
+        --accent-gold-light: #e0c16c;
+        --accent-crimson: #b85450;
+        --accent-crimson-light: #d4736f;
+        --border-subtle: rgba(255, 255, 255, 0.06);
+        --border-gold: rgba(201, 168, 76, 0.3);
+      }
 
-        .con{
-            border: 1px solid white;
-            background-color: rgb(49, 39, 39);
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: var(--bg-primary);
+        color: var(--text-secondary);
+        font-family: "Inter", sans-serif;
+        font-weight: 300;
+        line-height: 1.8;
+        overflow-x: hidden;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        color: var(--text-primary);
+      }
+
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg-primary);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #333;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--accent-gold);
+      }
+
+      /* Hero */
+      .page-hero {
+        background: linear-gradient(
+          180deg,
+          var(--bg-secondary) 0%,
+          var(--bg-primary) 100%
+        );
+        border-bottom: 1px solid var(--border-subtle);
+        padding: 4rem 0 3rem;
+        text-align: center;
+        position: relative;
+      }
+      .page-hero::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(
+          circle,
+          rgba(201, 168, 76, 0.06) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+      .hero-icon {
+        width: 64px;
+        height: 64px;
+        background: rgba(201, 168, 76, 0.1);
+        border: 1px solid var(--border-gold);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        color: var(--accent-gold);
+        font-size: 1.8rem;
+      }
+      .page-hero h1 {
+        font-size: clamp(2rem, 5vw, 3rem);
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+      }
+      .page-hero .effective-date {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        font-family: "Inter", sans-serif;
+        letter-spacing: 0.05em;
+      }
+
+      /* Policy Card */
+      .policy-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: 20px;
+        padding: 3rem;
+        max-width: 900px;
+        margin: 0 auto;
+        position: relative;
+      }
+      .policy-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--accent-gold),
+          transparent
+        );
+        border-radius: 20px 20px 0 0;
+      }
+
+      /* Intro Text */
+      .policy-intro {
+        font-size: 1.05rem;
+        color: var(--text-secondary);
+        margin-bottom: 2.5rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--border-subtle);
+      }
+      .policy-intro strong {
+        color: var(--text-primary);
+        font-weight: 500;
+      }
+
+      /* Section Headings */
+      .policy-section {
+        margin-bottom: 2.5rem;
+      }
+      .policy-section:last-child {
+        margin-bottom: 0;
+      }
+      .policy-section h2 {
+        font-size: 1.4rem;
+        color: var(--accent-gold);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .policy-section h2::before {
+        content: "";
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        background: var(--accent-gold);
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+
+      /* Lists */
+      .policy-section ul {
+        padding-left: 0;
+        list-style: none;
+        margin-bottom: 0;
+      }
+      .policy-section ul li {
+        position: relative;
+        padding-left: 1.5rem;
+        margin-bottom: 0.75rem;
+        color: var(--text-secondary);
+      }
+      .policy-section ul li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.65rem;
+        width: 6px;
+        height: 6px;
+        background: var(--accent-gold);
+        border-radius: 50%;
+        opacity: 0.6;
+      }
+      .policy-section ul li strong {
+        color: var(--text-primary);
+        font-weight: 500;
+      }
+
+      /* Disclaimer Box */
+      .disclaimer-box {
+        background: rgba(184, 84, 80, 0.05);
+        border: 1px solid rgba(184, 84, 80, 0.2);
+        border-radius: 14px;
+        padding: 1.75rem;
+        margin-top: 2rem;
+      }
+      .disclaimer-box h2 {
+        color: var(--accent-crimson-light);
+        font-size: 1.3rem;
+        margin-bottom: 0.75rem;
+      }
+      .disclaimer-box h2::before {
+        background: var(--accent-crimson-light);
+      }
+      .disclaimer-box p {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        margin-bottom: 0;
+      }
+
+      /* Contact */
+      .contact-info {
+        margin-top: 1rem;
+      }
+      .contact-info a {
+        color: var(--accent-gold);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+      .contact-info a:hover {
+        color: var(--accent-gold-light);
+      }
+
+      /* Animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
         }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
+      }
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
     </style>
+  </head>
 
-</head>
-<body>
-
-   
+  <body>
     {% include 'nav.html' %}
 
+    <!-- Hero -->
+    <section class="page-hero fade-in">
+      <div class="container position-relative">
+        <div class="hero-icon">
+          <i class="bi bi-shield-check"></i>
+        </div>
+        <h1>Privacy Policy</h1>
+        <div class="effective-date">Effective Date: 23 October 2024</div>
+      </div>
+    </section>
 
-    <div class="container .bg-warning con">
-    <h1 class="text-center pt-3">Privacy Policy</h1>
-    <p><strong>Effective Date:</strong> 23-10-2024</p>
-    
-    <p>Welcome to geecosmic Inc. ("we," "our," or "us"). This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our services, including the generation of life path numbers, sun numbers, destiny numbers, year numbers, and conversions of birthdays to Jewish dates, among other features.</p>
-    
-    <p>By using our website, you agree to the terms outlined in this Privacy Policy. If you do not agree with this policy, please do not access or use our services.</p>
-    
-    <h2>1. Information We Collect</h2>
-    <p>We may collect the following types of information:</p>
-    <ul>
-        <li><strong>Personal Information:</strong> Information such as names, email addresses, or birth dates that you voluntarily provide when you use our services to generate life path numbers, sun numbers, or convert dates.</li>
-        <li><strong>Non-Personal Information:</strong> Data automatically collected when you visit our website, including IP addresses, browser type, device information, and browsing behavior on our site. This data does not personally identify you.</li>
-        <li><strong>Cookies:</strong> We may use cookies to improve your user experience and analyze website traffic.</li>
-    </ul>
-    
-    <h2>2. How We Use Your Information</h2>
-    <p>We use the information collected for the following purposes:</p>
-    <ul>
-        <li>To provide personalized services, such as calculating your life path, sun number, destiny number, year number, and Jewish birthday.</li>
-        <li>To analyze and improve our website’s performance and user experience.</li>
-        <li>To send you updates or notifications if you’ve opted to receive such communication.</li>
-        <li>To ensure compliance with legal and regulatory requirements.</li>
-    </ul>
-    
-    <h2>3. Disclosure of Your Information</h2>
-    <p>We do not sell or rent your personal information to third parties. However, we may share your data under the following circumstances:</p>
-    <ul>
-        <li><strong>Service Providers:</strong> We may share your information with trusted third-party vendors or partners who help us operate our website or provide additional services.</li>
-        <li><strong>Legal Compliance:</strong> We may disclose your information if required by law or in response to valid legal requests.</li>
-    </ul>
-    
-    <h2>4. Data Security</h2>
-    <p>We take the security of your data seriously and implement appropriate measures to protect your information from unauthorized access, disclosure, alteration, or destruction. However, no internet transmission is completely secure, and we cannot guarantee absolute security.</p>
-    
-    <h2>5. Your Rights</h2>
-    <p>You have the following rights regarding your personal data:</p>
-    <ul>
-        <li><strong>Access:</strong> You can request access to the personal data we hold about you.</li>
-        <li><strong>Correction:</strong> You may request corrections if the information we have is inaccurate or incomplete.</li>
-        <li><strong>Deletion:</strong> You can request the deletion of your personal information.</li>
-    </ul>
-    <p>To exercise any of these rights, please contact us at [Your Contact Information].</p>
-    
-    <h2>6. Kabbalistic and Period Information Disclaimer</h2>
-    <p>The kabbalistic content, including life path numbers, destiny numbers, Jewish birthdays, and "periods" for activities, is provided for informational and entertainment purposes only. The results and recommendations generated by our tools are not guaranteed and should be used at your own discretion. You are responsible for any decisions or actions taken based on the information provided by this website.</p>
-    
-    <h2>7. Changes to This Privacy Policy</h2>
-    <p>We may update this Privacy Policy periodically. When changes are made, we will notify you by updating the effective date at the top of this policy. Continued use of the site after such changes constitutes your acknowledgment and acceptance of the changes.</p>
-    <h2>8. Contact Us</h2>
-    <p>If you have any questions or concerns about this Privacy Policy, please contact us at:</p>
-    <p><strong>Email:</strong> georgedredd@gmail.com<br>
-    <!-- <strong>Address:</strong> [Your Physical Address]</p> --><br>
+    <!-- Policy Content -->
+    <section class="py-5">
+      <div class="container">
+        <div class="policy-card fade-in">
+          <div class="policy-intro">
+            <p>
+              Welcome to <strong>ALEPHGEE ENTERPRISE</strong> ("we," "our," or
+              "us"). This Privacy Policy explains how we collect, use, disclose,
+              and safeguard your information when you visit our website and use
+              our services, including the generation of life path numbers, sun
+              numbers, destiny numbers, year numbers, and conversions of
+              birthdays to Jewish dates, among other features.
+            </p>
+            <p class="mb-0">
+              By using our website, you agree to the terms outlined in this
+              Privacy Policy. If you do not agree with this policy, please do
+              not access or use our services.
+            </p>
+          </div>
 
-</div> <br>
+          <!-- Section 1 -->
+          <div class="policy-section fade-in">
+            <h2>Information We Collect</h2>
+            <p>We may collect the following types of information:</p>
+            <ul>
+              <li>
+                <strong>Personal Information:</strong> Information such as
+                names, email addresses, or birth dates that you voluntarily
+                provide when you use our services to generate life path numbers,
+                sun numbers, or convert dates.
+              </li>
+              <li>
+                <strong>Non-Personal Information:</strong> Data automatically
+                collected when you visit our website, including IP addresses,
+                browser type, device information, and browsing behavior on our
+                site. This data does not personally identify you.
+              </li>
+              <li>
+                <strong>Cookies:</strong> We may use cookies to improve your
+                user experience and analyze website traffic.
+              </li>
+            </ul>
+          </div>
 
-    {% include "footer.html" %}
+          <!-- Section 2 -->
+          <div class="policy-section fade-in">
+            <h2>How We Use Your Information</h2>
+            <p>We use the information collected for the following purposes:</p>
+            <ul>
+              <li>
+                To provide personalized services, such as calculating your life
+                path, sun number, destiny number, year number, and Jewish
+                birthday.
+              </li>
+              <li>
+                To analyze and improve our website's performance and user
+                experience.
+              </li>
+              <li>
+                To send you updates or notifications if you've opted to receive
+                such communication.
+              </li>
+              <li>
+                To ensure compliance with legal and regulatory requirements.
+              </li>
+            </ul>
+          </div>
+
+          <!-- Section 3 -->
+          <div class="policy-section fade-in">
+            <h2>Disclosure of Your Information</h2>
+            <p>
+              We do not sell or rent your personal information to third parties.
+              However, we may share your data under the following circumstances:
+            </p>
+            <ul>
+              <li>
+                <strong>Service Providers:</strong> We may share your
+                information with trusted third-party vendors or partners who
+                help us operate our website or provide additional services.
+              </li>
+              <li>
+                <strong>Legal Compliance:</strong> We may disclose your
+                information if required by law or in response to valid legal
+                requests.
+              </li>
+            </ul>
+          </div>
+
+          <!-- Section 4 -->
+          <div class="policy-section fade-in">
+            <h2>Data Security</h2>
+            <p>
+              We take the security of your data seriously and implement
+              appropriate measures to protect your information from unauthorized
+              access, disclosure, alteration, or destruction. However, no
+              internet transmission is completely secure, and we cannot
+              guarantee absolute security.
+            </p>
+          </div>
+
+          <!-- Section 5 -->
+          <div class="policy-section fade-in">
+            <h2>Your Rights</h2>
+            <p>You have the following rights regarding your personal data:</p>
+            <ul>
+              <li>
+                <strong>Access:</strong> You can request access to the personal
+                data we hold about you.
+              </li>
+              <li>
+                <strong>Correction:</strong> You may request corrections if the
+                information we have is inaccurate or incomplete.
+              </li>
+              <li>
+                <strong>Deletion:</strong> You can request the deletion of your
+                personal information.
+              </li>
+            </ul>
+            <p>
+              To exercise any of these rights, please contact us at
+              <a href="mailto:eyogeorge23@gmail.com">eyogeorge23@gmail.com</a>.
+            </p>
+          </div>
+
+          <!-- Section 6: Disclaimer -->
+          <div class="disclaimer-box fade-in">
+            <h2>
+              <i
+                class="bi bi-exclamation-triangle-fill me-2"
+                style="font-size: 1rem"
+              ></i
+              >Kabbalistic and Period Information Disclaimer
+            </h2>
+            <p>
+              The kabbalistic content, including life path numbers, destiny
+              numbers, Jewish birthdays, and "periods" for activities, is
+              provided for informational and entertainment purposes only. The
+              results and recommendations generated by our tools are not
+              guaranteed and should be used at your own discretion. You are
+              responsible for any decisions or actions taken based on the
+              information provided by this website.
+            </p>
+          </div>
+
+          <!-- Section 7 -->
+          <div class="policy-section fade-in" style="margin-top: 2.5rem">
+            <h2>Changes to This Privacy Policy</h2>
+            <p>
+              We may update this Privacy Policy periodically. When changes are
+              made, we will notify you by updating the effective date at the top
+              of this policy. Continued use of the site after such changes
+              constitutes your acknowledgment and acceptance of the changes.
+            </p>
+          </div>
+
+          <!-- Section 8 -->
+          <div class="policy-section fade-in">
+            <h2>Contact Us</h2>
+            <p>
+              If you have any questions or concerns about this Privacy Policy,
+              please contact us at:
+            </p>
+            <div class="contact-info">
+              <p class="mb-0">
+                <strong>Email:</strong>
+                <a href="mailto:eyogeorge23@gmail.com">eyogeorge23@gmail.com</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
 
-</body>
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Scroll Animation -->
+    <script>
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) entry.target.classList.add("visible");
+          });
+        },
+        { threshold: 0.1 },
+      );
+      document
+        .querySelectorAll(".fade-in")
+        .forEach((el) => observer.observe(el));
+    </script>
+  </body>
 </html>

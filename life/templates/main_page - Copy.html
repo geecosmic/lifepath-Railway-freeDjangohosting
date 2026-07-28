@@ -1,0 +1,403 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+
+
+
+  <title>Periods</title>
+
+</head>
+<style>  
+
+body{
+    overflow-x: hidden;
+    background-color: black;
+    color: whitesmoke;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+    .bpro{
+        border: 5px solid green;
+        border-radius: 32px;
+    }
+    .bcon{
+        border: 5px solid rgb(243, 10, 10);
+        border-radius: 32px;
+
+    }
+
+   .perd2 li{
+    /* text-align: center; */
+    float: left;
+    margin-right: 15px;
+    list-style-type: none;
+    font-weight: 900; 
+  }
+
+
+  a:hover {  
+    text-decoration: none; /* Add underline on hover */
+    color: whitesmoke;  
+}
+  
+ a:active{
+   color: chartreuse;
+ }
+
+ @media (max-width: 480px) {  
+  .imgw{
+    width: 70%;
+    /* display: none; */
+  } 
+  .jbd{
+    display: none;  
+    /* height: 0; 
+    margin: 0;   
+    padding: 0;   */
+  } 
+  
+}
+
+ @media (min-width: 480px) {   
+  .perd2{
+    display: none;
+  } 
+  .jbd2{
+    display: none;  
+    height: 0; 
+    margin: 0;   
+    padding: 0;  
+  } 
+  } 
+
+
+
+
+ @media (max-width: 480px) {  
+  .perd{
+    display: none;
+  }  
+}
+
+.con1{
+  padding-top: 30px;
+  padding-bottom: 30px;
+  border: 8px solid red;
+}
+
+#yearcycle {
+    display: block;
+    visibility: visible;
+    opacity: 1;
+}
+span{
+  font-weight: 800;
+}
+
+
+.jbd{
+  margin-left: 240px;
+  /* padding-left: 80px; */
+}
+</style>
+
+
+
+
+<body>
+    {%include "nav.html"%}
+
+  
+<!-- <h4 class="text-center pt-3">Current Period for {{ today }}: <b class="text-warning h1">{{ current_period_letter }}</b></h4> -->
+
+
+<h4 class="text-center pt-3">
+  Current Period for {{ today }}: <b class="text-warning h1">{{ current_period_letter }}</b>
+</h4>
+
+<br>
+
+
+<h6 class="text-center">Current Time: <span class="text-warning" id="clock"></span></h6>
+
+
+
+<br>
+
+<center class="pt-3">
+    <h4><b>DAILY PERIODS</b></h4></center> <br>
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <!-- <div class="col-sm-2"></div> -->
+
+            {% for period in periods %}
+            <div class="col-auto">
+               
+              <a href="{% url 'main_page_with_detail' type='period' id=period.id %}#here">{{ period.title }}</a>
+                   
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+<!-- --------------------------------------------------------------- -->
+
+
+
+<!-- <img class="imgw" src="{% static 'images2/line2.png' %}" width="100%" alt="Image"> <br> <br> -->
+
+
+<!-- ------------------DAILY PERIOD----------------------------------------------------------- -->
+
+<center  id="here" class="p-2"><h3>The <I class="text-warning">{{ selected_period.title }}</I> Description</h3>
+</center>
+<div class="container-fluid">
+<!-- <div class="container"> -->
+    <div class="row">
+        <div class="col-md-1">
+            <p></p>
+
+        </div>
+        <div class="col-md-5 bpro mr-1">
+            <!-- <center class="bg-info"><h3>FOR</h3></center><br> -->
+            <center><h3 style="font-weight: 900;">FOR</h3></center><br>
+            <p>{{ selected_period.message_for|linebreaks }}</p>
+
+        </div>
+        <div class="col-md-5 bcon">
+            <center><h3 style="font-weight: 900;">AGAINST</h3></center><br>
+            <p>
+                {{ selected_period.message_against|linebreaks }}
+            </p>
+
+        </div>
+    </div>
+</div><br> <br> <br>
+<!-- <div style="height: 1000px;"></div> -->
+<img class="imgw" src="{% static 'images2/line2.png' %}" width="100%" alt="Image"> <br> <br>
+
+
+<!-- <-------------------!-- ads-------------------------------------------- --> 
+
+
+<!-- -----------------------ad-ends----------------------------------------- -->
+
+
+
+
+<!-- -------------------------yearly-PERIODS cycle--------------------------------- -->
+<h4 class="text-center">LIFE YEARLY CYCLE CALCULATION</h4>  
+
+
+
+<div class="container-fluid mb-2"> <br>
+  <h4 class="text-center">YEARLY PERIOD</h4> <br>
+
+  <div class="row justify-content-center align-items-center">
+    {% for yearlyperiod in yearlyperiods %}
+      <div class="col-auto">
+
+        <a href="{% url 'main_page_with_detail' type='yearlyperiod' id=yearlyperiod.id %}#here2">{{ yearlyperiod.title }}</a>
+
+      </div>
+    {% endfor %}
+  </div>
+</div>
+<br>
+
+<center  id="here2" class="p-2"><h4>The Yearly <I class="text-warning">{{ selected_yearlyperiod.title }}</I> Description</h4>
+
+<div class="container-fluid">
+  <!-- <div class="container"> -->
+      <div class="row">
+          <div class="col-md-1">
+              <p></p>
+  
+          </div>
+          <div class="col-md-5 bpro mr-1">
+              <center><h3>FOR</h3></center><br>
+              <p>{{ selected_yearlyperiod.message_for|linebreaks }}</p>
+  
+          </div>
+          <div class="col-md-5 bcon">
+              <center><h3>AGAINST</h3></center><br>
+              <p>
+                  {{ selected_yearlyperiod.message_against|linebreaks }}
+              </p>
+  
+          </div>
+      </div>
+  </div>
+<br>
+
+
+
+<div class="container con1">
+  <center> 
+    <div class="container">
+      <h5 class="p-3">Enter Birth Month and Date</h5> 
+  <form class="fm" method="POST" action="">  
+  {% csrf_token %}  
+  <div class="form-group">  
+  <label for="month">Month</label>  
+  <select style="width:200px; height:35px;" id="month" name="month" class="form-control">  
+  <option value="January">January</option>  
+  <option value="February">February</option>  
+  <option value="March">March</option>  
+  <option value="April">April</option>  
+  <option value="May">May</option>  
+  <option value="June">June</option>  
+  <option value="July">July</option>  
+  <option value="August">August</option>  
+  <option value="September">September</option>  
+  <option value="October">October</option>  
+  <option value="November">November</option>  
+  <option value="December">December</option>  
+  </select>  
+  </div>  
+  <div class="form-group">  
+  <label for="date">Date</label>  
+  <input style="width:200px;" type="number" class="form-control" id="date" name="date" placeholder="E.g Date (1 -31)">  
+  </div>  
+  
+  <button  onclick="window.location.hash='yearcycle';" type="submit" class="btn btn-primary">Send</button>  
+  </form>  
+  </center>  
+ </div><br>
+  <br>
+
+  
+
+  
+
+
+<div id="yearcycle" class="container-fluid"> 
+  
+  <div class="row justify-content-center align-items-center">
+    {% if cycle_periods %} 
+    <h2 class="text-primary text-center">52-Day Periods from {{ month_input }} {{ date_input }}:</h2> <br>  
+    <div class="col-12 col-md-8 text-center py-3"> 
+      
+      {% for cycle in cycle_periods %} 
+      
+        <h4 class="py-2"> 
+          <span class="text-light">Period {{ cycle.period_number }}</span> :<span  class="text-warning px-2">{{ cycle.start_date }}  -  {{ cycle.end_date }} <br> </span>
+      </h4> 
+      {% endfor %}
+       
+    </div> <br> 
+
+    
+  </div> 
+  <center><small class="text-danger">*Note: This Result remains the same forever*</small></center>  
+
+  {% endif %} 
+</div>
+
+<img class="imgw py-3" src="{% static 'images2/line2.png' %}" width="100%" alt="Image"> <br> <br>
+
+
+
+
+<!-- ------------YEARLY PERIOD ENDS------------------------------------- -->
+
+
+
+
+
+
+
+<!-- <div class="container mb-4 px-2 mt-5"> -->
+<div class="container text-center">
+    <div class="row">
+      <!-- <div class="col"></div> -->
+      <div class="col py-2"><img src="{% static 'images/days/sun' %}.png" width="240px" height="440px" alt="Image">
+      </div>
+      <div class="col py-2"><img src="{% static 'images/days/mon' %}.png" width="240px" height="440px" alt="Image">
+      </div>
+      <div class="col py-2"><img src="{% static 'images/days/tue' %}.png" width="240px" height="440px" alt="Image">
+      </div>
+      <div class="col py-2"><img src="{% static 'images/days/wed' %}.png" width="240px" height="440px" alt="Image">
+      </div>
+    </div>
+  </div>
+  <div class="container text-center">
+    <div class="row">
+      <div class="col"><img src="{% static 'images/days/thur' %}.png" width="240px" height="440px" alt="Image"><br><br>
+      </div>
+      <div class="col"><img src="{% static 'images/days/fri' %}.png" width="240px" height="440px" alt="Image"><br><br>
+      </div>
+      <div class="col"><img src="{% static 'images/days/sat' %}.png" width="240px" height="440px" alt="Image"><br><br>
+      </div>
+      
+    </div>
+  </div> <br><br>
+
+  
+  <script>
+        (function (d, z, s) {
+            s.src = 'https://' + d + '/400/' + z;
+            try {
+                // Append the ad script to the ad container
+                document.getElementById('ad-container').appendChild(s);
+            } catch (e) {
+                console.error("Ad placement failed:", e);
+            }
+        })('vemtoutcheeg.com', 8722571, document.createElement('script'));
+    </script>
+  
+
+{% include "footer.html"%}
+  
+
+<script>
+  function updateClock() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      const formattedTime = `${hours}:${minutes}:${seconds}`;
+      
+      document.getElementById('clock').textContent =formattedTime;
+  }
+  
+  // Update the clock every second
+  setInterval(updateClock, 1000);
+  updateClock(); // Initial call to display time immediately
+</script>
+
+
+<!-- script for timezone  ---------------- -->
+
+<script>
+  // Get the user's timezone
+  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  // Set timezone cookie if it’s not already set
+  if (document.cookie.indexOf('timezone') === -1) {
+      document.cookie = `timezone=${userTimezone}; path=/; max-age=31536000`;  // Expires in 1 year
+      // Reload the page to apply the timezone immediately
+      location.reload();
+  }
+</script>
+
+
+
+
+<!-- ---------------------------------------- -->
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>  
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>  
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>  
+
+</body>
+</html>

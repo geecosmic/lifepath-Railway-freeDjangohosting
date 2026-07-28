@@ -1,0 +1,299 @@
+{% load static %}
+<html lang="en">
+<head>
+    
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+
+    <title>Life Numbers</title>
+
+
+
+    <style>
+      body{
+        background-color: black;
+        color: azure;
+        margin: auto;
+        overflow-x: hidden;
+      }
+      input{
+        border: 2px solid green;
+        border-radius: 23px;
+        padding: 3px;
+        margin: 1px;
+      }
+      .container{
+        text-align: center;
+      }
+      .colo{
+        border-right: 2px solid green;
+      }
+      .pp{
+        margin-bottom: 10px;
+        border: 5px solid rgb(21, 0, 128);
+        font-size: 25px;
+        font-weight: 800;
+
+      }
+     
+      .form-control{
+        width: 170px;
+      }
+    </style>
+
+
+  </head>
+    
+ 
+
+
+<body>
+    {% include "nav.html"%}
+
+   
+<div class="container-fluid"  style="height: 100vh;">
+  <div>
+    <h4 class="mt-4 mb-3 text-light"><center>Universal year Number (Current Year) for {{current_yearx}} is : <b class="text-warning h2">{{current_year}}</b></center></h4>
+  </div>  
+  <br>
+  <div class="container-fluid mt-4 text-center">
+    <div class="row">
+      <div class="col-sm-3 colo">
+        <h5 class="mt-4 mb-3"><center>Calculate Your Life Path & Sun Number</center></h5>
+        
+        <form method="POST" action=""  id ='time-form'>
+          {% csrf_token %}
+          <input type="number" name="day" placeholder="day (1 - 31)"  required autocomplete="off">
+          <input type="number" name="month" placeholder="month (1 - 12)" required autocomplete="off">
+          <input type="number" name="year" placeholder="year (1900)" required autocomplete="off"><br>
+          <button onclick="unhideElement()" class="form-control btn btn-secondary mt-3" type="submit">Send</button>
+        </form><br><br>
+      <div>
+        {% if result %}
+        <h5 id='result-heading'>Your LIFE Path Number is:<p class="pp text-warning">{{ result }}</p></h5>
+        {% endif %}
+      </div>
+
+      <div>
+        {% if result2 %}
+        <h5 id='result-list'>Your SUN Number is: <p class="pp text-warning">{{ result2 }}</p></h5>
+        {% endif %}
+      </div>
+      </div>
+      <!--------------- PERSONAL-YEAR -->
+
+      <div class="col-sm-3 colo">
+        <h5 class="mt-4 mb-3"><center>Calculate Your Personal Year Number</center></h5>
+        <form method="POST" action="" id="personal_year">
+          {% csrf_token %}
+          <input type="number" name="day2" placeholder="day (1 - 31)" required autocomplete="off">
+          <input type="number" name="month2" placeholder="month (1 - 12)" required autocomplete="off">
+          <input type="number" name="year2" placeholder="current year" required autocomplete="off"><br>
+          <button class="form-control btn btn-secondary mt-3" type="submit">Send</button>
+        </form><br><br>
+
+    <div class="mt-2">
+        {% if result_py %}
+        <h4 id='result-heading'>Your Personal Year Number is:<p class="pp">{{ result_py }}</p> </h4>
+        {% endif %}
+    </div>
+        
+      
+      </div>
+      <div id="targetDiv" class="col-sm-3 colo">
+        <h5 class="mt-4 mb-3"><center>Calculate Your Personal Month Number</center></h5>
+        <form method="POST" action="">
+          {% csrf_token %}
+          <!-- <input type="text" name="day" placeholder="day"> -->
+          <input type="number" name="month3" placeholder="Current month(1-12)" autocomplete="off">
+          <input type="number" name="year3" placeholder="Personal Year Number" autocomplete="off"><br>
+          <button class="form-control btn btn-secondary mt-3" type="submit">Send</button>
+        </form><br>
+    
+        <div class="mt-3">
+        {% if result3 %}
+        <h4 id='result-heading'>Your Personal Month Number Is:<p class="pp">{{ result3 }}</p> </h4>
+        {% endif %}
+    
+      </div>
+      </div>
+      <div class="col-sm-3">
+        <h5 class="mt-4 mb-3"><center>Calculate Your Personal Day Number</center></h5>
+        <form method="POST" action="">
+          {% csrf_token %}
+          <!-- <input type="text" name="day" placeholder="day"> -->
+          <input type="number" name="month4" placeholder="Present day" autocomplete="off">
+          <input type="number" name="year4" placeholder="Personal Month Number" autocomplete="off"><br>
+          <button class="form-control btn btn-secondary mt-3" type="submit">Send</button>
+        </form><br>
+    
+        <div class="mt-3">
+        {% if result4 %}
+        <h4 id='result-heading'>Your Personal Day Number is:<p class="pp">{{ result4 }}</p> </h4>
+        {% endif %}
+      </div>
+    </div>
+      </div>
+  </div>
+  <br><br>
+  <center><button style="width: 180px;color: #ea5a06;font-weight: 900;"  class="btn btn-warning mb-5" type="button" onclick="resetForms()">Refresh</button></center>
+  
+  <!-- <hr style="background-color: white; margin-bottom: 50px;"> -->
+  <img class="imgw" src="{% static 'images2/line2.png' %}" width="100%" alt="Image"> <br>
+
+
+  <!-- ---------------DESTINY NUMBER--------------- -->
+  <div class="container mt-5 mb-5">
+    <h2 class="mb-4">Destiny Number Calculator</h2>
+     
+    
+    <!-- Bootstrap form -->
+    <form method="POST" action="{% url 'destiny_number' %}">
+        {% csrf_token %}
+        
+        <!-- Full Name Field -->
+        <div class="mb-3">
+            <label for="full_name" class="form-label">Enter your full name</label>
+            <center><input style="width: 300px;" type="text" name="full_name" id="full_name" class="form-control" placeholder="Full Name" value="" required autocomplete="off"></center>
+        </div>
+        
+        <!-- Submit Button -->
+        <button id="scrollButton" type="submit" class="btn btn-primary">Calculate</button>
+    </form>
+    
+    <!-- Result Display -->
+    {% if result_destiny %}
+        <h3 id='result-heading' class="mt-4">Your Destiny Number is: <strong class="text-warning">{{ result_destiny }}</strong></h3>
+    {% endif %}
+  </div>
+
+  <!-- ----------CALCULATIONS END----------------------- -->
+
+
+  
+<!-- <-------------------!-- ads-------------------------------------------- --> 
+
+
+<!-- -----------------------ad-ends----------------------------------------- -->
+
+
+
+<!-- <hr style="background-color: white; margin-bottom: 50px;"> -->
+<img class="imgw" src="{% static 'images2/line2.png' %}" width="100%" alt="Image"> <br> <br>
+
+
+<div class="container">
+  <h4>HOW TO CALCULATE YOUR LIFE PATH NUMBER</h4>
+  <p>To calculate your Life Path Number, you need to add together the digits of your 
+    birth date (month, day, and year) and then reduce the sum to a single digit or a 
+    master number (11 or 22). For example, if your birthday is August 18, 1989, you 
+    would convert the month (8), the day (1 + 8 = 9), and the year (1 + 9 + 8 + 9 = 27 → 2 + 7 = 9) to 
+    single digits, then add them together (8 + 9 + 9 = 26 → 2 + 6 = 8). Thus, your Life Path Number would 
+    be 8.</p>
+</div>
+
+<div class="container">
+  <h4>HOW TO CALCULATE YOUR SUN NUMBER</h4>
+  <P>To calculate your Sun Number in numerology, add the day and month of your birth. 
+    Then, reduce the total to a single digit between 1 and 9 (note that master numbers 
+    such as 11 and 22 are not reduced). For example, if you were born on August 5, 
+    you would calculate it as 8 (month) + 5 (day) = 13, which reduces to 1 + 3 = 4.</P>
+</div>
+<div class="container">
+
+    <div>
+    <h4 class="mt-4 mb-3"><center>How To Calculate Your Personal Year Number</center></h4>
+    </div>
+    <p>
+      To calculate your personal year number, sum your birth day, birth month, 
+      and the current year (or the year you want to analyze). For example, if your 
+      birthday is July 15 and you are calculating for 2024, you would add 15 (day) + 7 (month) + 2024 (year). 
+      Then, reduce the total to a single digit by adding the digits together, which follows a nine-year cycle.
+    </p>
+    
+  
+</div>
+<div class="container">
+   
+    <h4 class="mt-4 mb-3"><center>How To Calculate Your Personal Month Number</center></h4>
+
+    <p>
+      your personal month number, 
+      sum the reduced month digit and your personal year number, 
+      e.g. your personal year number is 9 and February is the month, 
+      you need to add year digit 9 to the month number 2 (corresponds to February). 
+      The sum is 11, and then you reduce it. So, February has a number 1+1 = 2, 
+      for an individual with year number 9.
+    </p>
+   
+</div>
+  <hr>
+<div class="container">
+      <h4 class="mt-4 mb-3"><center>How To Calculate Your Personal Day Number</center></h4>
+
+    <p>
+      In order to find your personal day number: add a number of the day to the 
+      personal month number, in case of need - reduce the number to a single digit.
+    </p>
+</div> 
+
+<!-- <br><br> -->
+
+
+
+
+
+
+  
+  <script>
+        (function (d, z, s) {
+            s.src = 'https://' + d + '/400/' + z;
+            try {
+                // Append the ad script to the ad container
+                document.getElementById('ad-container').appendChild(s);
+            } catch (e) {
+                console.error("Ad placement failed:", e);
+            }
+        })('vemtoutcheeg.com', 8722571, document.createElement('script'));
+    </script>
+
+
+{% include 'footer.html' %}
+
+
+
+
+
+<script>  
+  document.getElementById('scrollButton').onclick = function() {  
+      document.getElementById('targetDiv').scrollIntoView({ behavior: 'smooth' });  
+  };  
+</script>
+
+<script>
+  function resetForms() {
+      // Reset both forms
+      document.getElementById('time-form').reset();
+      // document.getElementById('cycle-form').reset();
+
+      // Clear the results section without affecting Bootstrap elements
+      const resultHeading = document.getElementById('result-heading');
+      const resultList = document.getElementById('result-list');
+
+      if (resultHeading) {
+          resultHeading.remove();
+      }
+
+      if (resultList) {
+          resultList.remove();
+      }
+  }
+</script>
+
+
+ <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+</body>
+</html>

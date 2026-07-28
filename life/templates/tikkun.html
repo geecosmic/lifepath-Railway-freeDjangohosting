@@ -1,343 +1,834 @@
-
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  
+  <!-- Bootstrap 5.3 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
   <title>Kabbalistic Tools</title>
 
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5173311072173254" crossorigin="anonymous"></script>
 
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5173311072173254"
-     crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #111118;
+      --bg-card: #13131f;
+      --bg-glass: rgba(19, 19, 31, 0.85);
+      --text-primary: #e8e6e1;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      --accent-gold: #c9a84c;
+      --accent-gold-light: #e0c16c;
+      --accent-crimson: #b85450;
+      --accent-crimson-light: #d4736f;
+      --border-subtle: rgba(255, 255, 255, 0.06);
+      --border-gold: rgba(201, 168, 76, 0.3);
+    }
 
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      overflow-x: hidden;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      overflow-wrap: break-word;
+    }
+
+    p {
+      overflow-wrap: break-word;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-primary);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 4px;
+    }
+
+    /* Links */
+    a {
+      color: var(--accent-gold);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    a:hover {
+      color: var(--accent-gold-light);
+    }
+
+    /* Section styling */
+    .section {
+      padding: 4rem 0;
+      position: relative;
+    }
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-gold), transparent);
+      margin: 0 auto;
+      width: 70%;
+      opacity: 0.4;
+    }
+
+    /* Cards */
+    .glass-card {
+      background: var(--bg-glass);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .glass-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      border-color: var(--border-gold);
+    }
+
+    /* Date banner */
+    .date-banner {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 0.875rem 1.25rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .date-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+    .date-item strong {
+      color: var(--accent-crimson-light);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+    .date-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--border-subtle);
+    }
+
+    /* Tetragrammaton section */
+    .tetra-section {
+      text-align: center;
+      padding: 2.5rem 0;
+    }
+    .tetra-title {
+      color: var(--accent-gold);
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      padding: 0 1rem;
+      line-height: 1.5;
+    }
+    .tetra-images {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+      padding: 0 1rem;
+    }
+    .tetra-images img {
+      max-width: 160px;
+      width: 100%;
+      filter: drop-shadow(0 8px 20px rgba(0,0,0,0.5));
+      transition: transform 0.4s ease;
+    }
+    .tetra-images img:hover {
+      transform: scale(1.05);
+    }
+    .tetra-main {
+      padding: 0 1rem;
+    }
+    .tetra-main img {
+      max-width: 420px;
+      width: 100%;
+      filter: drop-shadow(0 12px 30px rgba(0,0,0,0.6));
+    }
+
+    /* Video Hero */
+    .video-hero {
+      position: relative;
+      height: 55vh;
+      min-height: 320px;
+      max-height: 600px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .video-hero video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      z-index: 0;
+    }
+    .video-hero::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(10,10,15,0.3), rgba(10,10,15,0.75));
+      z-index: 1;
+    }
+    .video-hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 0 1.5rem;
+    }
+    .video-hero-content h1 {
+      font-size: clamp(2rem, 8vw, 4.5rem);
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      letter-spacing: 0.08em;
+      animation: fadeInUp 1s ease;
+    }
+    .video-hero-content .subtitle {
+      color: var(--accent-gold);
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-top: 0.75rem;
+      animation: fadeInUp 1s ease 0.3s both;
+    }
+
+    /* Content sections */
+    .section-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      padding: 0 1rem;
+    }
+    .section-header h2 {
+      font-size: clamp(1.6rem, 5vw, 2.6rem);
+      color: var(--accent-crimson-light);
+      margin-bottom: 0.5rem;
+    }
+    .section-header .underline {
+      width: 50px;
+      height: 2px;
+      background: var(--accent-gold);
+      margin: 0 auto;
+    }
+
+    .content-text {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      line-height: 1.85;
+    }
+    .content-text b, .content-text strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+    .content-text .lead {
+      color: var(--text-primary);
+      font-size: 1.05rem;
+      border-left: 3px solid var(--accent-gold);
+      padding-left: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+
+    /* Image styling */
+    .img-elegant {
+      border-radius: 12px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      width: 100%;
+    }
+    .img-elegant:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+    }
+
+    /* Video player */
+    .video-wrapper {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+      border: 1px solid var(--border-subtle);
+    }
+    .video-wrapper video {
+      width: 100%;
+      display: block;
+      max-height: 60vh;
+    }
+
+    /* App buttons */
+    .app-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 1.75rem 1.25rem;
+      text-align: center;
+      transition: all 0.3s ease;
+      height: 100%;
+    }
+    .app-card:hover {
+      border-color: var(--border-gold);
+      transform: translateY(-4px);
+    }
+    .app-card i {
+      font-size: 2rem;
+      color: var(--accent-gold);
+      margin-bottom: 0.75rem;
+    }
+    .app-card h5 {
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      font-size: 1.15rem;
+    }
+    .app-card p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 1.25rem;
+    }
+    .btn-gold {
+      background: transparent;
+      color: var(--accent-gold);
+      border: 1px solid var(--accent-gold);
+      padding: 0.6rem 1.5rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .btn-gold:hover {
+      background: var(--accent-gold);
+      color: var(--bg-primary);
+    }
+
+    /* Numbered steps */
+    .step-circle {
+      width: 46px;
+      height: 46px;
+      background: var(--bg-primary);
+      border-radius: 50%;
+      border: 1px solid var(--border-gold);
+      color: var(--accent-gold);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 0.75rem;
+      font-size: 0.95rem;
+    }
+    .step-title {
+      color: var(--text-primary);
+      font-size: 1.05rem;
+      margin-bottom: 0.4rem;
+    }
+    .step-text {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========== TABLET ========== */
+    @media (min-width: 768px) {
+      .section {
+        padding: 5rem 0;
+      }
+      .tetra-section {
+        padding: 3rem 0;
+      }
+      .tetra-images {
+        gap: 2.5rem;
+      }
+      .tetra-images img {
+        max-width: 190px;
+      }
+      .tetra-main img {
+        max-width: 480px;
+      }
+      .video-hero {
+        height: 65vh;
+        min-height: 380px;
+      }
+      .glass-card {
+        padding: 2rem;
+      }
+      .content-text {
+        font-size: 1.05rem;
+      }
+      .content-text .lead {
+        font-size: 1.15rem;
+      }
+      .step-circle {
+        width: 50px;
+        height: 50px;
+      }
+    }
+
+    /* ========== DESKTOP ========== */
+    @media (min-width: 992px) {
+      .tetra-images {
+        gap: 4rem;
+      }
+      .tetra-images img {
+        max-width: 220px;
+      }
+      .tetra-main img {
+        max-width: 520px;
+      }
+      .video-hero {
+        height: 70vh;
+        min-height: 420px;
+      }
+      .section-header h2 {
+        font-size: 2.6rem;
+      }
+    }
+
+    /* ========== SMALL PHONES ========== */
+    @media (max-width: 400px) {
+      .date-banner {
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 0.75rem 1rem;
+      }
+      .date-divider {
+        display: none;
+      }
+      .tetra-images {
+        gap: 1rem;
+      }
+      .tetra-images img {
+        max-width: 130px;
+      }
+      .video-hero-content h1 {
+        font-size: 1.75rem;
+      }
+      .video-hero-content .subtitle {
+        font-size: 0.75rem;
+      }
+      .section {
+        padding: 2.5rem 0;
+      }
+      .app-card {
+        padding: 1.5rem 1rem;
+      }
+    }
+  </style>
 </head>
-
-<style>
-  body{
-    background: #000;
-    color: whitesmoke;
-    overflow-x: hidden;
-  }
-  .imgw2{
-    float: none;
-  }
- .par{
-  /* float: left; */
-  float: right;
- }
-
- @media (max-width: 480px) {  
-  .imgw{
-    width: 70%;
-    /* display: none; */
-  } 
-  .vidh{
-    padding: 20px;
-    font-weight: 700;
-  } 
-  .m3{
-    /* display: none; */
-    width: 70%;
-    height: 95%;
-  } 
-}
- 
- @media (min-width: 480px) {  
-  .imgw2 {  
-    display: block; 
-    float: right;
-
-  }  
-}
- @media (max-width: 480px) {  
-  .imgw2 {  
-    margin-left: 18px;
-    height: 100%;
-    width: 90%;
-
-  }  
-}
-.bb{
-  font-weight: 800;
-}
-
-
-
-/* for vid bg------------ */
-
-.video-background {
-  position: relative;
-  height: 80vh; /* Full height section */
-  overflow: hidden;
-}
-
-.background-video {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Ensures the video covers the entire area */
-  transform: translate(-50%, -50%);
-  z-index: 0; /* Keeps the video behind other elements */
-}
-
-.overlay {
-  position: relative;
-  z-index: 1; /* Places the text above the video */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  color: white;
-  font-size: 2rem;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-  background-color: rgba(0, 0, 0, 0.3); /* Optional semi-transparent overlay */
-}
-
-</style>
 
 <body>
   {% include "nav.html" %}
-<br>
 
+  <!-- Date Banner -->
+  <div class="section pt-4 pb-0">
+    <div class="container text-center px-3">
+      <div class="date-banner fade-in">
+        <div class="date-item">
+          <i class="bi bi-calendar3 text-secondary"></i>
+          <span>Jewish Date:</span>
+          <strong>{{ year }}</strong>
+        </div>
+        <div class="date-divider"></div>
+        <div class="date-item">
+          <i class="bi bi-calendar-event text-secondary"></i>
+          <span>Gregorian Date:</span>
+          <strong>{{ date }}</strong>
+        </div>
+      </div>
+    </div>
+  </div>
 
-
-  <center>
+  <!-- Tetragrammaton Section -->
+  <section class="tetra-section fade-in">
     <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <h5>Jewish Date: <b class="text-danger h5">{{ year }}</b> </h5> 
-            </div>
-            <div class="col-md-6">
-                <h5>Gregorian Date: <b class="text-danger h5">{{ date }}</b></h5>
-            </div>
-        </div>
-    <br>
-    <h5 class="text-warning">TETRAGRAMATON COMBINATIONS FOR {{gee}} ( {{montth}} )</h5>
-    <br>
-        
-    <!-- -----------------TETRAGRAMATON------------------------------- -->
-    
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            {% if month_code %}
-            <!-- <img src="{% static 'images/1A' %}.png" width="50px" alt="Image"><br><br> -->
-    
-            <img class="imgw" src="{% static 'images/' %}{{ month_code }}.png" width="30%" alt="Image">
-            {% endif %}
-          </div>
-    
-          <div class="col">
-            {% if month_code2 %}
-            <!-- <img src="{% static 'images/1' %}.png" width="50px" alt="Image"><br><br> -->
-            <img class="imgw" src="{% static 'images/' %}{{ month_code2 }}.png" width="30%" alt="Image">
-          
-             {% endif %}
-          </div>
-        </div>
-      </div>
-
-      <div class="containner mt-2">
-        {% if month_code3 %}
-        <img class="m3" src="{% static 'images/' %}{{ month_code3 }}.png"width="80%" alt="Image">
+      <h5 class="tetra-title">Tetragrammaton Combinations for {{ gee }} [{{ montth }}]</h5>
       
-         {% endif %}
+      <div class="tetra-images">
+        {% if month_code %}
+          <img src="{% static 'images/combos/' %}{{ month_code }}.png" alt="Tetragrammaton Image 1">
+        {% endif %}
+        *
+        {% if month_code2 %}
+          <img src="{% static 'images/combos/' %}{{ month_code2 }}.png" alt="Tetragrammaton Image 2">
+        {% endif %}
       </div>
-      </center>
-      <!-- ----------------TETRAGRAMATON ENDS---------------------------------------------- -->
-<br> <br>
-<div class="text-center">
-<a href="{% url 'jewishbirthday' %}">Check you jewish birthday here</a>
-    </div> <br>
-
- <!-- --------------------------------------------------------------------------------    -->
-<img class="imgw" src="{% static 'images2/line2.png' %}" width="100%" alt="Image">
-
-<!-- video bg------------------------ -->
-
-<section class="video-background">
-  <video autoplay muted loop class="background-video">
-    <source src="{% static 'videos/vid1.mp4' %}" type="video/mp4"> 
-    Your browser does not support the video tag.
-  </video>
-  <div class="overlay">
-    <h1 class="vidh">Look Within</h1>
-  </div>
-</section>
-
-  <!-- ------------------------------------------------------------------------- -->
-  <div class="container-fluid mt-4">
-    <h2 class="text-center text-danger bb"> <u>TIKKUN HANEFESH</u> </h2> <br>
-    <div class="row">
-    <div class="col-md-5 mt-3">
-      <img class="imgw2" src="{% static 'images2/tik.png' %}" width="70%" height ='84%' alt="Image">
+      
+      <div class="tetra-main">
+        {% if month_code3 %}
+          <img src="{% static 'images/combos/' %}{{ month_code3 }}.png" alt="Tetragrammaton Main">
+        {% endif %}
+      </div>
     </div>
-    <div class="col-md-7 mt-4 text-warning par">
-      <p>Historically, kabbalists have practiced this healing meditation <b class="text-light">(Tikkun Hanefesh)</b> twice daily,
-        seven days a week, to rejuvenate and restore all body organs. <br><br>
-        Known as <b class="text-light">Tikkun Hanefesh</b>,
-         or the Correction of the Soul, it is one of the most potent healing methods in Kabbalah. <br>
-          Using the chart as a reference, place your right hand over the specific part of the body 
-           where you wish to channel energy.<br> The body parts are listed, and each box is numbered for 
-            easy navigation, starting from box #1 (the skull (keter)) and continuing to box #17 (the feet (malchut)). <br>
-             Focus on the Aramaic letter combination corresponding to the area of the body you are 
-             concentrating on, and Visualize  Light flowing through your right hand into that part.</p>
+  </section>
 
-        <!-- <div class="text-center"> -->
-        <h5 class="text-light">Watch the short video below to get the hang of it.</h5>
-
-        <video width="340" height="360" controls muted>  
-          <source src="{% static 'videos/tikkun_video5.mp4' %}" type="video/mp4">  
-          <source src="{% static 'videos/tikkun_video5.ogg' %}" type="video/ogg">  
-          Your browser does not support the video tag.  
-      </video>
-      <!-- </div>  -->
-    </div>
-    
-
-    </div>
-
+  <!-- Jewish Birthday Link -->
+  <div class="container text-center pb-4 px-3 fade-in">
+    <a href="{% url 'jewishbirthday' %}" class="d-inline-flex align-items-center gap-2" style="font-size: 1rem;">
+      <i class="bi bi-stars"></i>
+      Check your Jewish birthday here
+    </a>
   </div>
 
-  <div class="container text-warning">
-    <h3 class="text-center text-danger">Benefits of Tikkun Hanefesh</h3>
-    <p>The Tikkun HaNefesh is used for healing and is a powerful tool for regeneration and revitalization of the body's organs. 
-      It promotes a deeper connection to divine attributes like compassion and patience, potentially leading to holistic well-being. 
-      Regular practice, as kabbalists often do, may enhance both physical health and spiritual awareness.</p>
+  <div class="section-divider"></div>
 
-<div>
-  <p>Performing Tikun HaNefesh generally involves a couple of steps but few of these steps are very important. They are;<br>
+  <!-- Video Hero -->
+  <section class="video-hero fade-in">
+    <video autoplay muted loop playsinline>
+      <source src="{% static 'videos/vid1.mp4' %}" type="video/mp4">
+    </video>
+    <div class="video-hero-content">
+      <h1>Look Within</h1>
+      <div class="subtitle">The journey inward begins</div>
+    </div>
+  </section>
 
-    Intention (Kavanah): Set a clear intention for your Tikun HaNefesh practice. This could be to heal a specific aspect of your soul, like anger or fear, or to cultivate a particular virtue, such as compassion.
-    
-    Meditation and Visualization: Use meditation to connect with your higher self or divine light. Visualize the healing process, imagining the release of negativity and the infusion of positive energy. <br>
-    
-    Acts of Kindness: Integrate acts of kindness and compassion into your daily life, which aligns with the intention of healing your soul. This could include helping others, charitable donations, or simply being a listening ear. <br>
-     
-    
-    Remember that Tikun HaNefesh is a personal and ongoing process. Regular practice, intention, and dedication can lead to significant spiritual growth and healing.</p>
-</div>
+  <div class="section-divider"></div>
 
-
-
-  </div>
- 
-
-
-<!-- ----------------------------------------------------------------------------------------   -->
-  <img class="imgw" src="{% static 'images2/line2.png' %}" width="100%" alt="Image"> <br> <br>
-  <!-- -------------------------------------------------------------------------------------------- -->
-
-<div class="container  text-warning"> 
-  <h3 class="text-center text-danger bb">THE PRAYER OF THE KABBALIST KNOWN AS THE ANA BEKO'ACH </h3>  <br>
-
-    <p>The Ana beKo'ach, often referred to as the 42-letter Name of God, 
-      is a profound and mystical formula that holds significant importance 
-      in Kabbalistic tradition. This unique composition consists of 42 letters 
-      meticulously arranged into seven distinct sentences, with each sentence containing six words. 
-      This structured format is not merely for aesthetic purposes; it carries deep spiritual meaning. 
-      Each of the seven sentences corresponds to various elements of the cosmos, including the seven days 
-      of the week, seven specific angels, and a particular heavenly body, thereby linking the microcosm of 
-      human experience with the macrocosm of the universe.</P>
-
-      <p>The origins of the letters that form the Ana beKo'ach can be traced back to 
-        the first 42 letters of the Book of Genesis, the foundational text of the Hebrew Bible. 
-        Kabbalists believe that this connection is not coincidental; rather, it signifies a direct 
-        link to the very moment of Creation itself. The letters are thought to encapsulate the divine 
-        energy that was present at the beginning of time, serving as a bridge to the original state of 
-        existence before the world became fragmented and corrupted.</p>
-  
-<p>When practitioners engage in the Ana beKo'ach meditation, they are not merely reciting words; 
-  they are embarking on a spiritual journey that allows them to reconnect with this primordial energy. 
-  Each time one meditates on a specific sequence of these letters, they are believed to access the 
-  untainted spiritual Light that was present during Creation. This practice not only enhances one's 
-  spiritual awareness but also enriches one’s life with positive energy and clarity of purpose.</p>
-
-  <p>The transformative power of the Ana beKo'ach meditation lies in its ability to elevate the practitioner's consciousness, 
-    aligning them with the divine flow of the universe. As individuals immerse themselves in this meditation, 
-    they may experience a profound sense of peace, insight, and connection to something greater than themselves. 
-    This experience is often described as a return to a state of purity and enlightenment, where the distractions 
-    of the material world fade away, and the true essence of one’s being can emerge.</p>
-
-    <p>In summary, the Ana beKo'ach is much more than a collection of letters; 
-      it is a sacred tool for spiritual transformation. Through its intricate design and 
-      deep connections to the cosmos, it offers practitioners a pathway to rediscover the 
-      uncorrupted energies of Creation, allowing them to live more fully in alignment with their 
-      highest selves.</p>
-
-      <div>
-          <img src="{% static 'images2/Ana.png' %}" width="90%" height ='84%' alt="Image">
+  <!-- Tikkun Hanefesh Section -->
+  <section class="section fade-in">
+    <div class="container px-3 px-md-4">
+      <div class="section-header">
+        <h2>Tikkun Hanefesh</h2>
+        <div class="underline"></div>
       </div>
 
-</div>
-<br><br>
+      <div class="row align-items-center g-4 g-lg-5">
+        <div class="col-lg-5">
+          <img class="img-elegant" src="{% static 'images2/tik.png' %}" alt="Tikkun Hanefesh Chart">
+        </div>
+        <div class="col-lg-7">
+          <div class="content-text">
+            <p class="lead">
+              Historically, kabbalists have practiced this healing meditation <strong>(Tikkun Hanefesh)</strong> twice daily, 
+              seven days a week, to rejuvenate and restore all body organs.
+            </p>
+            <p>
+              Known as <strong>Tikkun Hanefesh</strong>, or the Correction of the Soul, it is one of the most 
+              potent healing methods in Kabbalah. Using the chart as a reference, place your right hand over 
+              the specific part of the body where you wish to channel energy. The body parts are listed, and 
+              each box is numbered for easy navigation, starting from box #1 (the skull — <em>keter</em>) and 
+              continuing to box #17 (the feet — <em>malchut</em>).
+            </p>
+            <p>
+              Focus on the Aramaic letter combination corresponding to the area of the body you are 
+              concentrating on, and visualize Light flowing through your right hand into that part.
+            </p>
+          </div>
 
+          <div class="mt-4">
+            <h5 class="mb-3" style="color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 0.95rem; letter-spacing: 0.05em;">
+              <i class="bi bi-play-circle me-2 text-secondary"></i>Watch the short video below to get the hang of it
+            </h5>
+            <div class="video-wrapper">
+              <video controls muted playsinline poster="">
+                <source src="{% static 'videos/tikkun_video5.mp4' %}" type="video/mp4">
+                <source src="{% static 'videos/tikkun_video5.ogg' %}" type="video/ogg">
+              </video>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<!-- ------------------------------------------------------------------------------------------ -->
-<img class="imgw" src="{% static 'images2/line2.png' %}" width="100%" alt="Image"> <br> <br>
-<!-- --------------------------------------------------------------------------------------- -->
+  <div class="section-divider"></div>
 
-<div class="container text-warning">
-  <h3 class="text-center text-danger bb">THE 72 NAMES OF GOD</h3>
-  <div>
-    <small class="text-danger text-center">SCAN AND READ THE NAMES FROM RIGHT TO LEFT</small>
+  <!-- Benefits Section -->
+  <section class="section fade-in" style="background: var(--bg-secondary);">
+    <div class="container px-3 px-md-4">
+      <div class="section-header">
+        <h2>Benefits of Tikkun Hanefesh</h2>
+        <div class="underline"></div>
+      </div>
+      
+      <div class="row g-3 g-lg-4">
+        <div class="col-lg-6">
+          <div class="glass-card h-100">
+            <i class="bi bi-heart-pulse mb-2" style="font-size: 1.75rem; color: var(--accent-crimson-light);"></i>
+            <h4 style="color: var(--text-primary); margin-bottom: 0.75rem; font-size: 1.25rem;">Healing & Regeneration</h4>
+            <p class="content-text mb-0" style="font-size: 0.95rem;">
+              The Tikkun HaNefesh is used for healing and is a powerful tool for regeneration and 
+              revitalization of the body's organs. It promotes a deeper connection to divine attributes 
+              like compassion and patience, potentially leading to holistic well-being.
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="glass-card h-100">
+            <i class="bi bi-stars mb-2" style="font-size: 1.75rem; color: var(--accent-gold);"></i>
+            <h4 style="color: var(--text-primary); margin-bottom: 0.75rem; font-size: 1.25rem;">Spiritual Practice</h4>
+            <p class="content-text mb-0" style="font-size: 0.95rem;">
+              Regular practice, as kabbalists often do, may enhance both physical health and spiritual 
+              awareness. The meditation aligns your soul with divine frequencies, creating a bridge 
+              between the physical and spiritual realms.
+            </p>
+          </div>
+        </div>
+      </div>
 
-    <img src="{% static 'images2/72.jpg' %}" width="100%" height ='84%' alt="Image">
-  </div> <br>
+      <div class="mt-4 mt-lg-5">
+        <h4 class="text-center mb-4" style="color: var(--accent-gold); font-family: 'Inter', sans-serif; font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase;">
+          How to Practice
+        </h4>
+        <div class="row g-3 g-lg-4">
+          <div class="col-md-4">
+            <div class="text-center p-2 p-lg-3">
+              <div class="step-circle">1</div>
+              <h5 class="step-title">Intention (Kavanah)</h5>
+              <p class="step-text">Set a clear intention for your practice — to heal a specific aspect of your soul or cultivate a particular virtue.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="text-center p-2 p-lg-3">
+              <div class="step-circle">2</div>
+              <h5 class="step-title">Meditation</h5>
+              <p class="step-text">Use meditation to connect with your higher self. Visualize the release of negativity and the infusion of positive energy.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="text-center p-2 p-lg-3">
+              <div class="step-circle">3</div>
+              <h5 class="step-title">Acts of Kindness</h5>
+              <p class="step-text">Integrate acts of kindness into your daily life — helping others, charitable donations, or simply being a listening ear.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <p>In the Zohar, the ancient Kabbalist Rav Shimon bar Yochai posits that it was Moses, rather than God, 
-    
-    who parted the Red Sea, facilitating the Israelites' escape from Pharaoh and the Egyptian army. To achieve
-     this miraculous feat, Moses harnessed the power of certainty along with an advanced spiritual technology. 
-     He possessed a formula that granted him access to the Quantum realm of nature. <br><br>
+  <div class="section-divider"></div>
 
-    For the past 2000 years, this formula, hidden within the Zohar, has remained undisclosed. <br><br>
-    
-    This formula is 72 sequences made up of Hebrew letters that hold remarkable power, enabling 
-    the transcendence of the laws of nature, including those governing human behavior.</p>
+  <!-- Ana BeKoach Section -->
+  <section class="section fade-in">
+    <div class="container px-3 px-md-4">
+      <div class="section-header">
+        <h2>The Prayer of the Kabbalist</h2>
+        <p style="color: var(--accent-gold); letter-spacing: 0.12em; text-transform: uppercase; font-size: 0.8rem; font-family: 'Inter', sans-serif;">Ana BeKo'ach</p>
+        <div class="underline"></div>
+      </div>
 
-    <p>Though the formula is embedded within the Biblical narrative of the parting of the Red Sea, 
-      it remained a secret known only to a select group of kabbalists, with no rabbi, scholar, or 
-      priest aware of its existence. These kabbalists understood that one day, the formula would be 
-      unveiled to the world at the right moment. <br><br>
-
-      Today, after approximately 2,000 years of obscurity, modern seekers have the opportunity 
-      to access this power and energy by learning about and invoking the 72 Names of God. <br><br>
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <div class="content-text">
+            <p class="lead">
+              The Ana beKo'ach, often referred to as the 42-letter Name of God, is a profound and mystical 
+              formula that holds significant importance in Kabbalistic tradition.
+            </p>
             
-      The 72 Names consist of three-letter sequences that function as an index to specific 
-      spiritual frequencies. By simply observing the letters and closing your eyes to visualize 
-      them, you can establish a connection with these potent frequencies.</p>
+            <p>
+              This unique composition consists of 42 letters meticulously arranged into seven distinct sentences, 
+              with each sentence containing six words. This structured format is not merely for aesthetic purposes; 
+              it carries deep spiritual meaning. Each of the seven sentences corresponds to various elements of the 
+              cosmos, including the seven days of the week, seven specific angels, and a particular heavenly body, 
+              thereby linking the microcosm of human experience with the macrocosm of the universe.
+            </p>
 
-</div>
-<div class="text-center">
-  <h3>Get The 72 Names of God App:</h3>
-<br>
-<div class="cpntainer">
-  <div class="row">
-    <div class="col">
-      &#8594; <a href="https://play.google.com/store/apps/details?id=org.namesofgodpro.namesofgodpro&pcampaignid=web_share"target="_blank">72 NAMES OF GOD PRO Version</a> <br>
-       (Paid Version: AutoScan , and Index included) <br>
+            <p>
+              The origins of the letters that form the Ana beKo'ach can be traced back to the first 42 letters of 
+              the Book of Genesis, the foundational text of the Hebrew Bible. Kabbalists believe that this connection 
+              is not coincidental; rather, it signifies a direct link to the very moment of Creation itself.
+            </p>
+
+            <p>
+              When practitioners engage in the Ana beKo'ach meditation, they are not merely reciting words; they are 
+              embarking on a spiritual journey that allows them to reconnect with this primordial energy.
+            </p>
+
+            <p>
+              The transformative power of the Ana beKo'ach meditation lies in its ability to elevate the practitioner's 
+              consciousness, aligning them with the divine flow of the universe.
+            </p>
+          </div>
+
+          <div class="mt-4 mt-lg-5 text-center">
+            <img class="img-elegant" src="{% static 'images2/Ana.png' %}" alt="Ana BeKoach" style="max-width: 100%; width: 800px;">
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="col">
-      &#8594; <a href="https://play.google.com/store/apps/details?id=org.nameslite.nameslite&pcampaignid=web_share"target="_blank">72 NAMES OF GOD </a>  <br>(Free Version: Basic) <br>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 72 Names Section -->
+  <section class="section fade-in" style="background: var(--bg-secondary);">
+    <div class="container px-3 px-md-4">
+      <div class="section-header">
+        <h2>The 72 Names of God</h2>
+        <div class="underline"></div>
+      </div>
+
+      <div class="text-center mb-4">
+        <span style="color: var(--accent-crimson-light); font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase;">
+          <i class="bi bi-eye me-2"></i>Scan and read the names from right to left
+        </span>
+      </div>
+
+      <div class="mb-4 mb-lg-5 text-center">
+        <img class="img-elegant" src="{% static 'images2/72.jpg' %}" alt="72 Names of God" style="max-width: 100%; width: 900px;">
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <div class="content-text">
+            <p>
+              In the Zohar, the ancient Kabbalist Rav Shimon bar Yochai posits that it was Moses, rather than God, 
+              who parted the Red Sea, facilitating the Israelites' escape from Pharaoh and the Egyptian army. To achieve 
+              this miraculous feat, Moses harnessed the power of certainty along with an advanced spiritual technology.
+            </p>
+            <p>
+              For the past 2000 years, this formula, hidden within the Zohar, has remained undisclosed. This formula is 
+              72 sequences made up of Hebrew letters that hold remarkable power, enabling the transcendence of the laws 
+              of nature, including those governing human behavior.
+            </p>
+            <p>
+              Though the formula is embedded within the Biblical narrative of the parting of the Red Sea, it remained a 
+              secret known only to a select group of kabbalists. These kabbalists understood that one day, the formula 
+              would be unveiled to the world at the right moment.
+            </p>
+            <p>
+              Today, after approximately 2,000 years of obscurity, modern seekers have the opportunity to access this power 
+              and energy by learning about and invoking the 72 Names of God. The 72 Names consist of three-letter sequences 
+              that function as an index to specific spiritual frequencies. By simply observing the letters and closing your 
+              eyes to visualize them, you can establish a connection with these potent frequencies.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- App Download Cards -->
+      <div class="mt-4 mt-lg-5">
+        <h4 class="text-center mb-4" style="color: var(--text-primary); font-family: 'Cormorant Garamond', serif; font-size: 1.4rem;">
+          Get The 72 Names of God App
+        </h4>
+        <div class="row g-3 g-lg-4 justify-content-center">
+          <div class="col-md-5">
+            <div class="app-card">
+              <i class="bi bi-phone"></i>
+              <h5>72 Names of God Pro</h5>
+              <p>Paid Version with AutoScan and Index included</p>
+              <a href="https://play.google.com/store/apps/details?id=org.namesofgodpro.namesofgodpro&pcampaignid=web_share" target="_blank" class="btn-gold">
+                <i class="bi bi-google-play me-2"></i>Download Pro
+              </a>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="app-card">
+              <i class="bi bi-phone"></i>
+              <h5>72 Names of God</h5>
+              <p>Free Version with basic features</p>
+              <a href="https://play.google.com/store/apps/details?id=org.nameslite.nameslite&pcampaignid=web_share" target="_blank" class="btn-gold">
+                <i class="bi bi-google-play me-2"></i>Download Free
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+  </section>
 
-</div>
+  {% include "footer.html" %}
 
-<br>
-{% include "footer.html" %}
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Scroll Animation Script -->
+  <script>
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.08
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
 </body>
 </html>
-
-
-
-

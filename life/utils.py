@@ -1,12 +1,10 @@
 # api/utils.py
-from datetime import datetime
 from datetime import datetime, timedelta
 from .models import YearlyPeriod
 from django.shortcuts import render, get_object_or_404
-
-
-from pyluach import dates
 from datetime import datetime
+import pytz
+from pyluach import dates
 
 
 def reduce_to_single_digit(n):
@@ -59,181 +57,151 @@ def get_yearly_cycle(month_input, date_input):
 
 
 
-
-
 def hebrew_date_info():
-    date =datetime.now()
-    date=date.date()
+    """Return Hebrew date information with English month name, zodiac, and custom codes."""
     
-    montth = (list(dates.HebrewDate.today()))[1]
+    # Get current Hebrew date
+    heb = dates.HebrewDate.today()
+    
+    year = heb.year
+    month_num = heb.month
+    day = heb.day
 
-    x = (list(dates.HebrewDate.today()))[0]
-    y = (list(dates.HebrewDate.today()))[1]
-    z = (list(dates.HebrewDate.today()))[2]
+    # Month mapping: (English name, Zodiac, month_code2, month_code)
+    month_map = {
+        1:  ("Nisan",       "Aries",       1,  "1b"),
+        2:  ("Iyar",        "Taurus",      2,  "2b"),
+        3:  ("Sivan",       "Gemini",      3,  "3b"),
+        4:  ("Tammuz",      "Cancer",      4,  "4b"),
+        5:  ("Av",          "Leo",         5,  "5b"),
+        6:  ("Elul",        "Virgo",       6,  "6b"),
+        7:  ("Tishre",      "Libra",       7,  "7b"),
+        8:  ("Heshvan",     "Scorpio",     8,  "8b"),
+        9:  ("Kishlev",     "Sagittarius", 9,  "9b"),
+        10: ("Tevet",       "Capricorn",   10, "10b"),
+        11: ("Shevat",      "Aquarius",    11, "11b"),
+        12: ("Adar I",      "Pisces",      12, "12b"),
+        13: ("Adar II",     "Pisces",      12, "12b"),
+    }
 
-    k = ''
-    m = ''
-    q = ''
+    month_name, zodiac, month_code2, month_code = month_map.get(
+        month_num, ("Unknown", None, None, None)
+    )
+    
+    # month_code3 = "10jj" if month_num == 10 else ""
 
-    u =0           
-    x = str(x)
-    for i in x :
-        u+=int(i)
-    v =0  
-    for j in str(u) :
-        v+=int(j)
+    # Day ordinal suffix
+    if day in (2, 22):
+        suffix = "nd"
+    elif day in (1, 21):
+        suffix = "st"
+    elif day in (3, 23):
+        suffix = "rd"
+    else:
+        suffix = "th"
 
-    if y==13:
-        y = "Adar II"
-        gee='Pisces'
-        k=12
-        m='12L'
-
-    if y==1:
-        y = 'Nisan'
-        gee='Aries'
-        k=1
-        m='1A'
-
-    elif y==2:
-        y = 'Iyar'
-        gee='Taurus'
-        k=2
-        m='2B'
-
-    elif y==3:
-        y = 'Sivan'
-        gee='Gemini'
-        k=3
-        m='3C'
-
-    elif y==4:
-        y = 'Tammuz'
-        gee='Cancer'
-        k=4
-        m='4D'
-
-    elif y==5:
-        y = 'Av'
-        gee='Leo'
-        k=5
-        m='5E'
-
-    elif y==6:
-        y = 'Elul'
-        gee='Virgo'
-        k=6
-        m='6F'
-
-    elif y==7:
-        y = 'Tishre'
-        gee='Libra'
-        k=7
-        m='7G'
-
-    elif y==8:
-        y = 'Heshvan'
-        gee='Scorpio'
-        k=8
-        m='8H'
-
-    elif y==9:
-        y = 'Kishlev'
-        gee='Sagittarius'
-        k=9
-        m='9I'
-
-    elif y==10:
-        y = 'Tevet'
-        gee='Capricorn'
-        k=10
-        m='10J'
-        q ='10jj'
-
-    elif y==11:
-        y = 'Shevat'
-        gee='Aquarius'
-        k=11
-        m='11K'
-
-    elif y==12:
-        y= "Adar I"
-        gee='Pisces'
-        k=12
-        m='12L'
-
-    now = datetime.now() 
-    hour = now.strftime("%H")
-    if hour >=str(20):
-        z=int(z)+1
-    h = [2,22]   
-    if z in h:
-        year = (f'{z}nd of {y}, {x}')
-
-    g = [1,21]   
-    if z in g:
-        year = (f'{z}st of {y}, {x}')
-
-    l = [3,23]  
-    if z in l:
-        year = (f'{z}rd of {y}, {x}')
-
-    p = [4,5,6,7,8,9,10,11,12,
-            13,14,15,16,17,18,19,20,
-            24,25,26,27,28,29,30]
-        
-
-
-    if z in p:
-        year = (f'{z}th of {y}, {x}')
+    formatted_date = f"{day}{suffix} of {month_name}, {year}"
 
     return {
-        # 'formatted_date': formatted_date,
-        'year': year,
-        'month_code': m,
-        'month_code2': k,
-        'month_code3': q,
-        'montth':y,
-        'gee':gee,
-        'date':date
-        # 'u': u,
-        # 'v': v
-    }    
+        'year': formatted_date,
+        'month_code': month_code,
+        'month_code2': month_code2,
+        # 'month_code3': month_code3,
+        'montth': month_name,
+        'gee': zodiac,
+        'date': datetime.now().date()
+    }
+
+
 
 
 
 # ----------for PERIODS EVERYWHERE ------------------------------
 
-# utils.py
+
 from datetime import datetime, timedelta
 import pytz
 
 def get_period_for_day_and_time(timezone='UTC'):
-    now = datetime.now(pytz.timezone(timezone))
-
-    # Calculate the precise length of each period in seconds (7 periods in a day)
-    period_length_in_seconds = 86400 / 7  # 86400 seconds in 24 hours, divided by 7 periods
-
-    start_time = now.replace(hour=0, minute=0, second=0, microsecond=0)  # Midnight of the current day
-    elapsed_time_in_seconds = (now - start_time).total_seconds()
-    period_index = int(elapsed_time_in_seconds // period_length_in_seconds)
-   
-    # Period mappings for each day
+    tz = pytz.timezone(timezone)
+    now = datetime.now(tz)
+    
+    # Midnight of the current day
+    start_of_day = now.replace(hour=0, minute=0, second=0, microsecond=0)
+    
+    period_length = timedelta(seconds=86400 / 7)
+    
+    # Calculate current period
+    elapsed = now - start_of_day
+    period_index = int(elapsed.total_seconds() // period_length.total_seconds())
+    
+    # Start and end times
+    period_start = start_of_day + (period_index * period_length)
+    period_end = period_start + period_length
+    
+    # Period letter
     period_mappings = {
-        'Sunday': ['G', 'A', 'B', 'C', 'D', 'E', 'F'],
-        'Monday': ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
-        'Tuesday': ['F', 'G', 'A', 'B', 'C', 'D', 'E'],
+        'Sunday':    ['G', 'A', 'B', 'C', 'D', 'E', 'F'],
+        'Monday':    ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
+        'Tuesday':   ['F', 'G', 'A', 'B', 'C', 'D', 'E'],
         'Wednesday': ['B', 'C', 'D', 'E', 'F', 'G', 'A'],
-        'Thursday': ['E', 'H', 'C', 'A', 'B', 'C', 'D'],
-        'Friday': ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
-        'Saturday': ['D', 'E', 'F', 'G', 'A', 'B', 'C'],
+        'Thursday':  ['E', 'H', 'C', 'A', 'B', 'C', 'D'],
+        'Friday':    ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
+        'Saturday':  ['D', 'E', 'F', 'G', 'A', 'B', 'C'],
     }
 
     today = now.strftime("%A")
     periods = period_mappings.get(today, ['Invalid'])
-    current_period_letter = periods[period_index] if 0 <= period_index < len(periods) else "Invalid period"
+    current_period = periods[period_index] if 0 <= period_index < len(periods) else "Invalid"
 
-    return today, current_period_letter, period_index
+    # Calculate remaining time safely
+    remaining = period_end - now
+    hours = int(remaining.total_seconds() // 3600)
+    minutes = int((remaining.total_seconds() % 3600) // 60)
+    seconds = int(remaining.total_seconds() % 60)
+    
+    return {
+        'day': today,
+        'period': current_period,
+        'period_index': period_index,
+        'start_time': period_start,
+        'end_time': period_end,
+        'start_formatted': period_start.strftime("%H:%M"),
+        'end_formatted': period_end.strftime("%H:%M"),
+        # 'end_formatted': period_end.strftime("%H:%M:%S"),
+        'remaining_formatted': f"{hours:02d}:{minutes:02d}:{seconds:02d}"
+    }
+
+# utils.py
+# from datetime import datetime, timedelta
+# import pytz
+
+# def get_period_for_day_and_time(timezone='UTC'):
+#     now = datetime.now(pytz.timezone(timezone))
+
+#     # Calculate the precise length of each period in seconds (7 periods in a day)
+#     period_length_in_seconds = 86400 / 7  # 86400 seconds in 24 hours, divided by 7 periods
+
+#     start_time = now.replace(hour=0, minute=0, second=0, microsecond=0)  # Midnight of the current day
+#     elapsed_time_in_seconds = (now - start_time).total_seconds()
+#     period_index = int(elapsed_time_in_seconds // period_length_in_seconds)
+   
+#     # Period mappings for each day
+#     period_mappings = {
+#         'Sunday': ['G', 'A', 'B', 'C', 'D', 'E', 'F'],
+#         'Monday': ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
+#         'Tuesday': ['F', 'G', 'A', 'B', 'C', 'D', 'E'],
+#         'Wednesday': ['B', 'C', 'D', 'E', 'F', 'G', 'A'],
+#         'Thursday': ['E', 'H', 'C', 'A', 'B', 'C', 'D'],
+#         'Friday': ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
+#         'Saturday': ['D', 'E', 'F', 'G', 'A', 'B', 'C'],
+#     }
+
+#     today = now.strftime("%A")
+#     periods = period_mappings.get(today, ['Invalid'])
+#     current_period_letter = periods[period_index] if 0 <= period_index < len(periods) else "Invalid period"
+
+#     return today, current_period_letter, period_index
 # -----------------------------------------------------------------
 
 
@@ -241,10 +209,6 @@ def get_period_for_day_and_time(timezone='UTC'):
 def yearly_stuff():
     yearlyperiods= YearlyPeriod.objects.all() 
     # yearlyperiod= None
-
-  
-    
-  
 
     return yearlyperiods
     

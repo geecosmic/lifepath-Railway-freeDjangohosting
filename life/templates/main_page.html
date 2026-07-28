@@ -2,402 +2,1120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
-
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  
+  <!-- Bootstrap 5.3 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
   <title>Periods</title>
 
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #111118;
+      --bg-card: #13131f;
+      --bg-glass: rgba(19, 19, 31, 0.85);
+      --text-primary: #e8e6e1;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      --accent-gold: #c9a84c;
+      --accent-gold-light: #e0c16c;
+      --accent-crimson: #b85450;
+      --accent-crimson-light: #d4736f;
+      --accent-green: #5a8f6e;
+      --accent-green-light: #7ab88e;
+      --border-subtle: rgba(255, 255, 255, 0.06);
+      --border-gold: rgba(201, 168, 76, 0.3);
+      --border-green: rgba(90, 143, 110, 0.3);
+      --border-crimson: rgba(184, 84, 80, 0.3);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      overflow-wrap: break-word;
+    }
+
+    p { overflow-wrap: break-word; }
+    img { max-width: 100%; height: auto; }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-primary); }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+
+    /* Section Dividers */
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-gold), transparent);
+      margin: 0 auto;
+      width: 60%;
+      opacity: 0.4;
+    }
+
+    /* Current Period Hero */
+    .period-hero {
+      background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 2.5rem 0 2rem;
+      text-align: center;
+      position: relative;
+    }
+    .period-hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .period-label {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-family: 'Inter', sans-serif;
+      margin-bottom: 0.5rem;
+      padding: 0 1rem;
+    }
+    .period-letter {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 12vw, 6rem);
+      font-weight: 700;
+      color: var(--accent-gold);
+      line-height: 1;
+      text-shadow: 0 0 50px rgba(201,168,76,0.25);
+      margin: 0.5rem 0;
+      word-break: break-word;
+    }
+    .period-date {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      padding: 0 1rem;
+    }
+    .period-date strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* Period Navigation Pills */
+    .period-nav {
+      padding: 1.5rem 0;
+    }
+    .period-nav-title {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 0.2em;
+      {% comment %} text-transform: uppercase; {% endcomment %}
+      font-family: 'Inter', sans-serif;
+      margin-bottom: 0.75rem;
+      padding: 0 1rem;
+    }
+    .period-nav-title2 {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-family: 'Inter', sans-serif;
+      margin-bottom: 1.25rem;
+      padding: 0 1rem;
+      font-style: italic;
+    }
+    .period-pills {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.4rem;
+      list-style: none;
+      padding: 0 0.5rem;
+      margin: 0;
+    }
+    .period-pills li a {
+      display: block;
+      padding: 0.45rem 1rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 50px;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      letter-spacing: 0.02em;
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+    }
+    .period-pills li a:hover {
+      border-color: var(--border-gold);
+      color: var(--accent-gold);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    .period-pills li a.active-period {
+      background: rgba(201,168,76,0.1);
+      border-color: var(--border-gold);
+      color: var(--accent-gold);
+    }
+
+    /* Description Section */
+    .desc-section {
+      padding: 1.5rem 0 2.5rem;
+    }
+    .desc-header {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding: 0 1rem;
+    }
+    .desc-header h3 {
+      font-size: clamp(1.3rem, 4vw, 1.8rem);
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+    .desc-header i {
+      color: var(--accent-gold);
+      font-style: italic;
+    }
+
+    /* For / Against Cards */
+    .verdict-card {
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 1.5rem;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .verdict-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    }
+    .verdict-card.for {
+      border: 1px solid var(--border-green);
+    }
+    .verdict-card.for:hover {
+      border-color: rgba(90, 143, 110, 0.6);
+    }
+    .verdict-card.against {
+      border: 1px solid var(--border-crimson);
+    }
+    .verdict-card.against:hover {
+      border-color: rgba(184, 84, 80, 0.6);
+    }
+    .verdict-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+    .verdict-card.for::before {
+      background: linear-gradient(90deg, transparent, var(--accent-green), transparent);
+    }
+    .verdict-card.against::before {
+      background: linear-gradient(90deg, transparent, var(--accent-crimson), transparent);
+    }
+    .verdict-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      margin-bottom: 0.875rem;
+    }
+    .verdict-card.for .verdict-icon {
+      background: rgba(90, 143, 110, 0.1);
+      border: 1px solid var(--border-green);
+      color: var(--accent-green-light);
+    }
+    .verdict-card.against .verdict-icon {
+      background: rgba(184, 84, 80, 0.1);
+      border: 1px solid var(--border-crimson);
+      color: var(--accent-crimson-light);
+    }
+    .verdict-title {
+      font-size: 1.15rem;
+      margin-bottom: 0.875rem;
+      letter-spacing: 0.05em;
+    }
+    .verdict-card.for .verdict-title { color: var(--accent-green-light); }
+    .verdict-card.against .verdict-title { color: var(--accent-crimson-light); }
+    .verdict-text {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.85;
+    }
+    .verdict-text p { margin-bottom: 0.6rem; }
+    .verdict-text p:last-child { margin-bottom: 0; }
+
+    /* Yearly Cycle Section */
+    .yearly-section {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 2.5rem 0;
+    }
+
+    /* Form Card */
+    .cycle-form-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 1.75rem;
+      max-width: 480px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .cycle-form-card h5 {
+      color: var(--text-primary);
+      margin-bottom: 1.25rem;
+      font-size: 1.15rem;
+    }
+    .form-control-custom {
+      width: 100%;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 0.65rem 0.875rem;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+    .form-control-custom:focus {
+      outline: none;
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
+    }
+    .form-label-custom {
+      display: block;
+      text-align: left;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.35rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+    }
+    .btn-gold {
+      background: linear-gradient(135deg, var(--accent-gold), #a88a3a);
+      color: #0a0a0f;
+      border: none;
+      padding: 0.65rem 1.5rem;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      letter-spacing: 0.02em;
+      width: 100%;
+    }
+    .btn-gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(201,168,76,0.3);
+      color: #0a0a0f;
+    }
+
+    /* Cycle Results */
+    .cycle-results {
+      margin-top: 2.5rem;
+    }
+    .cycle-results h2 {
+      color: var(--accent-gold);
+      font-size: clamp(1.2rem, 4vw, 1.6rem);
+      text-align: center;
+      margin-bottom: 1.5rem;
+      padding: 0 1rem;
+    }
+    .timeline {
+      position: relative;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 0.5rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--border-gold), transparent);
+    }
+    .timeline-item {
+      position: relative;
+      padding: 0.75rem 0;
+      display: flex;
+      align-items: center;
+    }
+    .timeline-item:nth-child(odd) {
+      flex-direction: row;
+      text-align: right;
+    }
+    .timeline-item:nth-child(even) {
+      flex-direction: row-reverse;
+      text-align: left;
+    }
+    .timeline-dot {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 12px;
+      height: 12px;
+      background: var(--bg-primary);
+      border: 2px solid var(--accent-gold);
+      border-radius: 50%;
+      z-index: 2;
+      transition: all 0.3s ease;
+    }
+    .timeline-item:hover .timeline-dot {
+      background: var(--accent-gold);
+      box-shadow: 0 0 15px rgba(201,168,76,0.4);
+    }
+    .timeline-content {
+      width: 45%;
+      padding: 0.875rem 1.25rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+    .timeline-item:hover .timeline-content {
+      border-color: var(--border-gold);
+      transform: scale(1.02);
+    }
+    .timeline-period {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    .timeline-dates {
+      font-size: 0.8rem;
+      color: var(--accent-gold);
+      margin-top: 0.2rem;
+    }
+    .cycle-note {
+      text-align: center;
+      color: var(--accent-crimson-light);
+      font-size: 0.8rem;
+      margin-top: 1.25rem;
+      font-style: italic;
+      padding: 0 1rem;
+    }
+
+    /* ============================================
+       DAYS ACCORDION — Option C
+       ============================================ */
+    .days-section {
+      padding: 2.5rem 0;
+    }
+    .days-section .section-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .days-section .section-header h2 {
+      font-size: clamp(1.4rem, 4vw, 1.8rem);
+      color: var(--text-primary);
+    }
+
+    .day-accordion {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .day-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      margin-bottom: 0.625rem;
+      overflow: hidden;
+      transition: border-color 0.3s ease;
+    }
+    .day-item:hover {
+      border-color: rgba(255,255,255,0.1);
+    }
+    .day-item.active {
+      border-color: var(--border-gold);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    /* Header */
+    .day-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.3s ease;
+    }
+    .day-item.active .day-header {
+      background: rgba(201,168,76,0.04);
+    }
+    .day-name-label {
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+    }
+    .day-icon {
+      width: 36px;
+      height: 36px;
+      background: rgba(201,168,76,0.08);
+      border: 1px solid var(--border-gold);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-gold);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+    .day-item.active .day-icon {
+      background: var(--accent-gold);
+      color: var(--bg-primary);
+      border-color: var(--accent-gold);
+    }
+    .day-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+    }
+    .day-item.active .day-title {
+      color: var(--accent-gold);
+    }
+    .day-chevron {
+      color: var(--text-muted);
+      font-size: 1rem;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .day-item.active .day-chevron {
+      transform: rotate(180deg);
+      color: var(--accent-gold);
+    }
+
+    /* Body — smooth expand/collapse */
+    .day-body {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .day-item.active .day-body {
+      grid-template-rows: 1fr;
+    }
+    .day-inner {
+      overflow: hidden;
+    }
+    .day-content {
+      padding: 0 1.25rem 1.25rem;
+    }
+
+    /* Image — FULL, no cropping */
+    .day-image-wrap {
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      border: 1px solid var(--border-subtle);
+    }
+    .day-image-wrap img {
+      max-width: 100%;
+      height: auto;
+      max-height: 70vh;
+      object-fit: contain;
+      border-radius: 8px;
+      display: inline-block;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(25px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========== TABLET ========== */
+    @media (min-width: 768px) {
+      .period-hero {
+        padding: 3.5rem 0 2.5rem;
+      }
+      .period-label {
+        font-size: 0.8rem;
+      }
+      .period-date {
+        font-size: 1.05rem;
+      }
+      .period-nav {
+        padding: 2rem 0;
+      }
+      .period-pills {
+        gap: 0.5rem;
+      }
+      .period-pills li a {
+        padding: 0.5rem 1.25rem;
+        font-size: 0.85rem;
+      }
+      .desc-section {
+        padding: 2rem 0 3rem;
+      }
+      .desc-header h3 {
+        font-size: 1.8rem;
+      }
+      .verdict-card {
+        padding: 2rem;
+      }
+      .verdict-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 1.3rem;
+      }
+      .verdict-title {
+        font-size: 1.3rem;
+      }
+      .verdict-text {
+        font-size: 0.95rem;
+      }
+      .yearly-section {
+        padding: 4rem 0;
+      }
+      .cycle-form-card {
+        padding: 2.5rem;
+      }
+      .cycle-form-card h5 {
+        font-size: 1.3rem;
+      }
+      .timeline-content {
+        padding: 1rem 1.5rem;
+      }
+      .timeline-period {
+        font-size: 1.1rem;
+      }
+      .days-section {
+        padding: 4rem 0;
+      }
+      .day-header {
+        padding: 1.125rem 1.5rem;
+      }
+      .day-title {
+        font-size: 1.35rem;
+      }
+      .day-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+      }
+      .day-content {
+        padding: 0 1.5rem 1.5rem;
+      }
+      .day-image-wrap {
+        padding: 2rem;
+      }
+    }
+
+    /* ========== DESKTOP ========== */
+    @media (min-width: 992px) {
+      .period-hero::before {
+        width: 500px;
+        height: 500px;
+      }
+      .day-image-wrap img {
+        max-height: 600px;
+      }
+    }
+
+    /* ========== SMALL PHONES ========== */
+    @media (max-width: 400px) {
+      .period-letter {
+        font-size: 3rem;
+      }
+      .period-pills li a {
+        padding: 0.4rem 0.875rem;
+        font-size: 0.75rem;
+      }
+      .verdict-card {
+        padding: 1.25rem;
+      }
+      .cycle-form-card {
+        padding: 1.25rem;
+        margin: 0 0.5rem;
+      }
+      .timeline::before { left: 16px; }
+      .timeline-dot { left: 16px; width: 10px; height: 10px; }
+      .timeline-item,
+      .timeline-item:nth-child(odd),
+      .timeline-item:nth-child(even) {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 40px;
+        text-align: left;
+      }
+      .timeline-content { width: 100%; padding: 0.75rem 1rem; }
+      .day-header {
+        padding: 0.875rem 1rem;
+      }
+      .day-title {
+        font-size: 1.05rem;
+      }
+      .day-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
+      }
+      .day-image-wrap {
+        padding: 1rem;
+      }
+    }
+  </style>
 </head>
-<style>  
-
-body{
-    overflow-x: hidden;
-    background-color: black;
-    color: whitesmoke;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-    .bpro{
-        border: 5px solid green;
-        border-radius: 32px;
-    }
-    .bcon{
-        border: 5px solid rgb(243, 10, 10);
-        border-radius: 32px;
-
-    }
-
-   .perd2 li{
-    /* text-align: center; */
-    float: left;
-    margin-right: 15px;
-    list-style-type: none;
-    font-weight: 900; 
-  }
-
-
-  a:hover {  
-    text-decoration: none; /* Add underline on hover */
-    color: whitesmoke;  
-}
-  
- a:active{
-   color: chartreuse;
- }
-
- @media (max-width: 480px) {  
-  .imgw{
-    width: 70%;
-    /* display: none; */
-  } 
-  .jbd{
-    display: none;  
-    /* height: 0; 
-    margin: 0;   
-    padding: 0;   */
-  } 
-  
-}
-
- @media (min-width: 480px) {   
-  .perd2{
-    display: none;
-  } 
-  .jbd2{
-    display: none;  
-    height: 0; 
-    margin: 0;   
-    padding: 0;  
-  } 
-  } 
-
-
-
-
- @media (max-width: 480px) {  
-  .perd{
-    display: none;
-  }  
-}
-
-.con1{
-  padding-top: 30px;
-  padding-bottom: 30px;
-  border: 8px solid red;
-}
-
-#yearcycle {
-    display: block;
-    visibility: visible;
-    opacity: 1;
-}
-span{
-  font-weight: 800;
-}
-
-
-.jbd{
-  margin-left: 240px;
-  /* padding-left: 80px; */
-}
-</style>
-
-
-
 
 <body>
-    {%include "nav.html"%}
+  {% include "nav.html" %}
 
-  
-<!-- <h4 class="text-center pt-3">Current Period for {{ today }}: <b class="text-warning h1">{{ current_period_letter }}</b></h4> -->
+  <!-- Current Period Hero -->
+  <section class="period-hero fade-in">
+    <div class="container position-relative px-3">
+      <div class="period-label">Current Period for {{ today }}</div>
+      <div class="period-letter">{{ current_period_letter }}</div>
+      <div class="period-date">from: <strong>{{ start_formatted }}</strong> to <strong>{{ end_formatted }}</strong></div>
+    </div>
+  </section>
+
+  <!-- Daily Periods Navigation -->
+  <section class="period-nav fade-in">
+    <div class="container px-3">
+      <div class="period-nav-title">
+      <h2 style="font-size: clamp(1.5rem, 4vw, 2rem); color: var(--text-primary);">Life Daily Cycle</h2>
+              <div style="width: 50px; height: 2px; background: var(--accent-gold); margin: 1rem auto;"></div>
 
 
-<h4 class="text-center pt-3">
-  Current Period for {{ today }}: <b class="text-warning h1">{{ current_period_letter }}</b>
-</h4>
+      </div>
 
-<br>
+      <div class="period-nav-title2"><i>Click on a period to view its full description</i></div>
+      <div class="period-nav-title">Daily Periods</div>
+      <ul class="period-pills">
+        {% for period in periods %}
+        <li>
+          <a href="{% url 'main_page_with_detail' type='period' id=period.id %}#here" 
+             class="{% if selected_period.id == period.id %}active-period{% endif %}">
+            {{ period.title }}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
 
+  <!-- Selected Period Description -->
+  <section class="desc-section" id="here">
+    <div class="container px-3 px-md-4">
+      <div class="desc-header fade-in">
+        <h3>The <i>{{ selected_period.title }}</i> Description</h3>
+        <div style="width: 50px; height: 2px; background: var(--accent-gold); margin: 1rem auto;"></div>
+      </div>
 
-<h6 class="text-center">Current Time: <span class="text-warning" id="clock"></span></h6>
-
-
-
-<br>
-
-<center class="pt-3">
-    <h4><b>DAILY PERIODS</b></h4></center> <br>
-    <div class="container">
-        <div class="row justify-content-center align-items-center">
-            <!-- <div class="col-sm-2"></div> -->
-
-            {% for period in periods %}
-            <div class="col-auto">
-               
-              <a href="{% url 'main_page_with_detail' type='period' id=period.id %}#here">{{ period.title }}</a>
-                   
+      <div class="row g-3 g-md-4 justify-content-center">
+        <div class="col-md-5 fade-in">
+          <div class="verdict-card for">
+            <div class="verdict-icon"><i class="bi bi-check-lg"></i></div>
+            <h4 class="verdict-title">FOR</h4>
+            <div class="verdict-text">
+              {{ selected_period.message_for|linebreaks }}
             </div>
-            {% endfor %}
-        </div>
-    </div>
-    
-<!-- --------------------------------------------------------------- -->
-
-
-
-<!-- <img class="imgw" src="{% static 'images2/line2.png' %}" width="100%" alt="Image"> <br> <br> -->
-
-
-<!-- ------------------DAILY PERIOD----------------------------------------------------------- -->
-
-<center  id="here" class="p-2"><h3>The <I class="text-warning">{{ selected_period.title }}</I> Description</h3>
-</center>
-<div class="container-fluid">
-<!-- <div class="container"> -->
-    <div class="row">
-        <div class="col-md-1">
-            <p></p>
-
-        </div>
-        <div class="col-md-5 bpro mr-1">
-            <!-- <center class="bg-info"><h3>FOR</h3></center><br> -->
-            <center><h3 style="font-weight: 900;">FOR</h3></center><br>
-            <p>{{ selected_period.message_for|linebreaks }}</p>
-
-        </div>
-        <div class="col-md-5 bcon">
-            <center><h3 style="font-weight: 900;">AGAINST</h3></center><br>
-            <p>
-                {{ selected_period.message_against|linebreaks }}
-            </p>
-
-        </div>
-    </div>
-</div><br> <br> <br>
-<!-- <div style="height: 1000px;"></div> -->
-<img class="imgw" src="{% static 'images2/line2.png' %}" width="100%" alt="Image"> <br> <br>
-
-
-<!-- <-------------------!-- ads-------------------------------------------- --> 
-
-
-<!-- -----------------------ad-ends----------------------------------------- -->
-
-
-
-
-<!-- -------------------------yearly-PERIODS cycle--------------------------------- -->
-<h4 class="text-center">LIFE YEARLY CYCLE CALCULATION</h4>  
-
-
-
-<div class="container-fluid mb-2"> <br>
-  <h4 class="text-center">YEARLY PERIOD</h4> <br>
-
-  <div class="row justify-content-center align-items-center">
-    {% for yearlyperiod in yearlyperiods %}
-      <div class="col-auto">
-
-        <a href="{% url 'main_page_with_detail' type='yearlyperiod' id=yearlyperiod.id %}#here2">{{ yearlyperiod.title }}</a>
-
-      </div>
-    {% endfor %}
-  </div>
-</div>
-<br>
-
-<center  id="here2" class="p-2"><h4>The Yearly <I class="text-warning">{{ selected_yearlyperiod.title }}</I> Description</h4>
-
-<div class="container-fluid">
-  <!-- <div class="container"> -->
-      <div class="row">
-          <div class="col-md-1">
-              <p></p>
-  
           </div>
-          <div class="col-md-5 bpro mr-1">
-              <center><h3>FOR</h3></center><br>
-              <p>{{ selected_yearlyperiod.message_for|linebreaks }}</p>
-  
+        </div>
+        <div class="col-md-5 fade-in">
+          <div class="verdict-card against">
+            <div class="verdict-icon"><i class="bi bi-x-lg"></i></div>
+            <h4 class="verdict-title">AGAINST</h4>
+            <div class="verdict-text">
+              {{ selected_period.message_against|linebreaks }}
+            </div>
           </div>
-          <div class="col-md-5 bcon">
-              <center><h3>AGAINST</h3></center><br>
-              <p>
-                  {{ selected_yearlyperiod.message_against|linebreaks }}
-              </p>
-  
-          </div>
-      </div>
-  </div>
-<br>
-
-
-
-<div class="container con1">
-  <center> 
-    <div class="container">
-      <h5 class="p-3">Enter Birth Month and Date</h5> 
-  <form class="fm" method="POST" action="">  
-  {% csrf_token %}  
-  <div class="form-group">  
-  <label for="month">Month</label>  
-  <select style="width:200px; height:35px;" id="month" name="month" class="form-control">  
-  <option value="January">January</option>  
-  <option value="February">February</option>  
-  <option value="March">March</option>  
-  <option value="April">April</option>  
-  <option value="May">May</option>  
-  <option value="June">June</option>  
-  <option value="July">July</option>  
-  <option value="August">August</option>  
-  <option value="September">September</option>  
-  <option value="October">October</option>  
-  <option value="November">November</option>  
-  <option value="December">December</option>  
-  </select>  
-  </div>  
-  <div class="form-group">  
-  <label for="date">Date</label>  
-  <input style="width:200px;" type="number" class="form-control" id="date" name="date" placeholder="E.g Date (1 -31)">  
-  </div>  
-  
-  <button  onclick="window.location.hash='yearcycle';" type="submit" class="btn btn-primary">Send</button>  
-  </form>  
-  </center>  
- </div><br>
-  <br>
-
-  
-
-  
-
-
-<div id="yearcycle" class="container-fluid"> 
-  
-  <div class="row justify-content-center align-items-center">
-    {% if cycle_periods %} 
-    <h2 class="text-primary text-center">52-Day Periods from {{ month_input }} {{ date_input }}:</h2> <br>  
-    <div class="col-12 col-md-8 text-center py-3"> 
-      
-      {% for cycle in cycle_periods %} 
-      
-        <h4 class="py-2"> 
-          <span class="text-light">Period {{ cycle.period_number }}</span> :<span  class="text-warning px-2">{{ cycle.start_date }}  -  {{ cycle.end_date }} <br> </span>
-      </h4> 
-      {% endfor %}
-       
-    </div> <br> 
-
-    
-  </div> 
-  <center><small class="text-danger">*Note: This Result remains the same forever*</small></center>  
-
-  {% endif %} 
-</div>
-
-<img class="imgw py-3" src="{% static 'images2/line2.png' %}" width="100%" alt="Image"> <br> <br>
-
-
-
-
-<!-- ------------YEARLY PERIOD ENDS------------------------------------- -->
-
-
-
-
-
-
-
-<!-- <div class="container mb-4 px-2 mt-5"> -->
-<div class="container text-center">
-    <div class="row">
-      <!-- <div class="col"></div> -->
-      <div class="col py-2"><img src="{% static 'images/days/sun' %}.png" width="240px" height="440px" alt="Image">
-      </div>
-      <div class="col py-2"><img src="{% static 'images/days/mon' %}.png" width="240px" height="440px" alt="Image">
-      </div>
-      <div class="col py-2"><img src="{% static 'images/days/tue' %}.png" width="240px" height="440px" alt="Image">
-      </div>
-      <div class="col py-2"><img src="{% static 'images/days/wed' %}.png" width="240px" height="440px" alt="Image">
+        </div>
       </div>
     </div>
-  </div>
-  <div class="container text-center">
-    <div class="row">
-      <div class="col"><img src="{% static 'images/days/thur' %}.png" width="240px" height="440px" alt="Image"><br><br>
-      </div>
-      <div class="col"><img src="{% static 'images/days/fri' %}.png" width="240px" height="440px" alt="Image"><br><br>
-      </div>
-      <div class="col"><img src="{% static 'images/days/sat' %}.png" width="240px" height="440px" alt="Image"><br><br>
-      </div>
-      
-    </div>
-  </div> <br><br>
+  </section>
 
-  
+  <div class="section-divider"></div>
+
+  <!-- Yearly Periods -->
+  <section class="yearly-section">
+    <div class="container px-3 px-md-4">
+      <div class="text-center mb-4 fade-in">
+        <h2 style="font-size: clamp(1.5rem, 4vw, 2rem); color: var(--text-primary);">Life Yearly Cycle</h2>
+        <div style="width: 50px; height: 2px; background: var(--accent-gold); margin: 1rem auto;"></div>
+      </div>
+
+      <div class="period-nav fade-in">
+        <div class="period-nav-title">Yearly Periods</div>
+        <ul class="period-pills">
+          {% for yearlyperiod in yearlyperiods %}
+          <li>
+            <a href="{% url 'main_page_with_detail' type='yearlyperiod' id=yearlyperiod.id %}#here2"
+               class="{% if selected_yearlyperiod.id == yearlyperiod.id %}active-period{% endif %}">
+              {{ yearlyperiod.title }}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <!-- Yearly Description -->
+      <div class="desc-section pb-0" id="here2">
+        <div class="desc-header fade-in">
+          <h3>The Yearly <i>{{ selected_yearlyperiod.title }}</i> Description</h3>
+          <div style="width: 50px; height: 2px; background: var(--accent-gold); margin: 1rem auto;"></div>
+        </div>
+
+        <div class="row g-3 g-md-4 justify-content-center">
+          <div class="col-md-5 fade-in">
+            <div class="verdict-card for">
+              <div class="verdict-icon"><i class="bi bi-check-lg"></i></div>
+              <h4 class="verdict-title">FOR</h4>
+              <div class="verdict-text">
+                {{ selected_yearlyperiod.message_for|linebreaks }}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5 fade-in">
+            <div class="verdict-card against">
+              <div class="verdict-icon"><i class="bi bi-x-lg"></i></div>
+              <h4 class="verdict-title">AGAINST</h4>
+              <div class="verdict-text">
+                {{ selected_yearlyperiod.message_against|linebreaks }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cycle Calculator Form -->
+      <div class="mt-4 mt-md-5 fade-in">
+        <div class="cycle-form-card">
+          <i class="bi bi-calendar-heart" style="font-size: 1.75rem; color: var(--accent-gold); margin-bottom: 0.75rem; display: block;"></i>
+          <h5>Enter Birth Month and Date</h5>
+          <form method="POST" action="">
+            {% csrf_token %}
+            <div class="row g-2 g-md-3 mb-3">
+              <div class="col-7">
+                <label class="form-label-custom">Month</label>
+                <select id="month" name="month" class="form-control-custom">
+                  <option value="January">January</option>
+                  <option value="February">February</option>
+                  <option value="March">March</option>
+                  <option value="April">April</option>
+                  <option value="May">May</option>
+                  <option value="June">June</option>
+                  <option value="July">July</option>
+                  <option value="August">August</option>
+                  <option value="September">September</option>
+                  <option value="October">October</option>
+                  <option value="November">November</option>
+                  <option value="December">December</option>
+                </select>
+              </div>
+              <div class="col-5">
+                <label class="form-label-custom">Date</label>
+                <input type="number" class="form-control-custom" id="date" name="date" placeholder="1-31" min="1" max="31">
+              </div>
+            </div>
+            <button onclick="window.location.hash='yearcycle';" type="submit" class="btn-gold">
+              <i class="bi bi-magic me-2"></i>Calculate Cycle
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Cycle Results -->
+      {% if cycle_periods %}
+      <div class="cycle-results fade-in" id="yearcycle">
+        <h2>52-Day Periods from {{ month_input }} {{ date_input }}</h2>
+        <div class="timeline">
+          {% for cycle in cycle_periods %}
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-period">Period {{ cycle.period_number }}</div>
+              <div class="timeline-dates">{{ cycle.start_date }} — {{ cycle.end_date }}</div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="cycle-note">
+          <i class="bi bi-info-circle me-1"></i>This result remains the same forever
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============================================
+       DAYS OF THE WEEK — ACCORDION (Option C)
+       ============================================ -->
+  <section class="days-section">
+    <div class="container px-3 px-md-4">
+      <div class="section-header fade-in">
+        <h2>Daily Periods Images</h2>
+        <div style="width: 50px; height: 2px; background: var(--accent-gold); margin: 1rem auto;"></div>
+      </div>
+
+      <div class="day-accordion fade-in" id="daysAccordion">
+
+        <!-- Sunday -->
+        <div class="day-item" data-day="sunday">
+          <div class="day-header" onclick="toggleDay(this)">
+            <div class="day-name-label">
+              <div class="day-icon"><i class="bi bi-sun"></i></div>
+              <span class="day-title">Sunday</span>
+            </div>
+            <i class="bi bi-chevron-down day-chevron"></i>
+          </div>
+          <div class="day-body">
+            <div class="day-inner">
+              <div class="day-content">
+                <div class="day-image-wrap">
+                  <img src="{% static 'images/days/sun' %}.png" alt="Sunday">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Monday -->
+        <div class="day-item" data-day="monday">
+          <div class="day-header" onclick="toggleDay(this)">
+            <div class="day-name-label">
+              <div class="day-icon"><i class="bi bi-moon"></i></div>
+              <span class="day-title">Monday</span>
+            </div>
+            <i class="bi bi-chevron-down day-chevron"></i>
+          </div>
+          <div class="day-body">
+            <div class="day-inner">
+              <div class="day-content">
+                <div class="day-image-wrap">
+                  <img src="{% static 'images/days/mon' %}.png" alt="Monday">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tuesday -->
+        <div class="day-item" data-day="tuesday">
+          <div class="day-header" onclick="toggleDay(this)">
+            <div class="day-name-label">
+              <div class="day-icon"><i class="bi bi-fire"></i></div>
+              <span class="day-title">Tuesday</span>
+            </div>
+            <i class="bi bi-chevron-down day-chevron"></i>
+          </div>
+          <div class="day-body">
+            <div class="day-inner">
+              <div class="day-content">
+                <div class="day-image-wrap">
+                  <img src="{% static 'images/days/tue' %}.png" alt="Tuesday">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Wednesday -->
+        <div class="day-item" data-day="wednesday">
+          <div class="day-header" onclick="toggleDay(this)">
+            <div class="day-name-label">
+              <div class="day-icon"><i class="bi bi-water"></i></div>
+              <span class="day-title">Wednesday</span>
+            </div>
+            <i class="bi bi-chevron-down day-chevron"></i>
+          </div>
+          <div class="day-body">
+            <div class="day-inner">
+              <div class="day-content">
+                <div class="day-image-wrap">
+                  <img src="{% static 'images/days/wed' %}.png" alt="Wednesday">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Thursday -->
+        <div class="day-item" data-day="thursday">
+          <div class="day-header" onclick="toggleDay(this)">
+            <div class="day-name-label">
+              <div class="day-icon"><i class="bi bi-lightning"></i></div>
+              <span class="day-title">Thursday</span>
+            </div>
+            <i class="bi bi-chevron-down day-chevron"></i>
+          </div>
+          <div class="day-body">
+            <div class="day-inner">
+              <div class="day-content">
+                <div class="day-image-wrap">
+                  <img src="{% static 'images/days/thur' %}.png" alt="Thursday">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Friday -->
+        <div class="day-item" data-day="friday">
+          <div class="day-header" onclick="toggleDay(this)">
+            <div class="day-name-label">
+              <div class="day-icon"><i class="bi bi-heart"></i></div>
+              <span class="day-title">Friday</span>
+            </div>
+            <i class="bi bi-chevron-down day-chevron"></i>
+          </div>
+          <div class="day-body">
+            <div class="day-inner">
+              <div class="day-content">
+                <div class="day-image-wrap">
+                  <img src="{% static 'images/days/fri' %}.png" alt="Friday">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Saturday -->
+        <div class="day-item" data-day="saturday">
+          <div class="day-header" onclick="toggleDay(this)">
+            <div class="day-name-label">
+              <div class="day-icon"><i class="bi bi-stars"></i></div>
+              <span class="day-title">Saturday</span>
+            </div>
+            <i class="bi bi-chevron-down day-chevron"></i>
+          </div>
+          <div class="day-body">
+            <div class="day-inner">
+              <div class="day-content">
+                <div class="day-image-wrap">
+                  <img src="{% static 'images/days/sat' %}.png" alt="Saturday">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  {% include "footer.html" %}
+
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Live Clock -->
   <script>
-        (function (d, z, s) {
-            s.src = 'https://' + d + '/400/' + z;
-            try {
-                // Append the ad script to the ad container
-                document.getElementById('ad-container').appendChild(s);
-            } catch (e) {
-                console.error("Ad placement failed:", e);
-            }
-        })('vemtoutcheeg.com', 8722571, document.createElement('script'));
-    </script>
-  
-
-{% include "footer.html"%}
-  
-
-<script>
-  function updateClock() {
+    function updateClock() {
       const now = new Date();
       const hours = String(now.getHours()).padStart(2, '0');
       const minutes = String(now.getMinutes()).padStart(2, '0');
       const seconds = String(now.getSeconds()).padStart(2, '0');
-      const formattedTime = `${hours}:${minutes}:${seconds}`;
-      
-      document.getElementById('clock').textContent =formattedTime;
-  }
-  
-  // Update the clock every second
-  setInterval(updateClock, 1000);
-  updateClock(); // Initial call to display time immediately
-</script>
+      document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
 
-
-<!-- script for timezone  ---------------- -->
-
-<script>
-  // Get the user's timezone
-  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-  // Set timezone cookie if it’s not already set
-  if (document.cookie.indexOf('timezone') === -1) {
-      document.cookie = `timezone=${userTimezone}; path=/; max-age=31536000`;  // Expires in 1 year
-      // Reload the page to apply the timezone immediately
+  <!-- Timezone Cookie -->
+  <script>
+    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (document.cookie.indexOf('timezone') === -1) {
+      document.cookie = `timezone=${userTimezone}; path=/; max-age=31536000`;
       location.reload();
-  }
-</script>
+    }
+  </script>
 
+  <!-- Ad Script -->
+  <script>
+    (function (d, z, s) {
+      s.src = 'https://' + d + '/400/' + z;
+      try {
+        document.getElementById('ad-container').appendChild(s);
+      } catch (e) {
+        console.error("Ad placement failed:", e);
+      }
+    })('vemtoutcheeg.com', 8722571, document.createElement('script'));
+  </script>
 
+  <!-- Days Accordion Script -->
+  <script>
+    function toggleDay(header) {
+      const item = header.closest('.day-item');
+      const accordion = document.getElementById('daysAccordion');
+      const allItems = accordion.querySelectorAll('.day-item');
 
+      // If clicking an already open item, close it. Otherwise close all and open clicked.
+      const isActive = item.classList.contains('active');
 
-<!-- ---------------------------------------- -->
+      allItems.forEach(i => i.classList.remove('active'));
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>  
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>  
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>  
+      if (!isActive) {
+        item.classList.add('active');
+      }
+    }
+  </script>
 
+  <!-- Scroll Animation -->
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
 </body>
 </html>

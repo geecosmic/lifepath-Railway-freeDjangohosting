@@ -1,64 +1,71 @@
-# api/views.py
-# from rest_framework.response import Response
-from django.shortcuts import render
+
+from django.contrib import messages
+from django.shortcuts import redirect, render
 # from rest_framework.decorators import api_view
-from .utils import reduce_to_single_digit,get_period_for_day_and_time
-from datetime import datetime
+from .utils import reduce_to_single_digit,get_period_for_day_and_time,get_period_for_day_and_time
 from datetime import datetime, timedelta
 from django.views.generic import View,ListView,CreateView,DetailView,UpdateView
 from .forms import DateConversionForm
 from django.shortcuts import render, get_object_or_404
 from .models import Period,YearlyPeriod
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 import json
 
 from django.views.decorators.csrf import csrf_exempt
-from .utils import get_period_for_day_and_time
 import pytz
 from django.views.decorators.http import require_http_methods
 
 from django.shortcuts import render
 from .utils import hebrew_date_info,yearly_stuff
 
+from django.core.mail import send_mail
+
+from pyluach import dates
+
+
 
 # from .forms import CustomUserCreationForm
 
 def get_period_view(request):
-    # Read the timezone from the cookie
-    timezone = request.COOKIES.get('timezone', 'UTC')  # Default to UTC if no timezone cookie is found
+    timezone = request.COOKIES.get('timezone', 'UTC')
+    
+    data = get_period_for_day_and_time(timezone=timezone)   # ← Now returns dict
 
-    # Call the function to get the period data
-    today, period_letter, period_index = get_period_for_day_and_time(timezone=timezone)
-
-    # Render your template with the period information
     return JsonResponse({
-        'day': today,
-        'period_letter': period_letter,
-        'period_index': period_index,
+        'day': data['day'],
+        'period_letter': data['period'],
+        'period_index': data['period_index'],
+        'start_formatted': data['start_formatted'],
+        'end_formatted': data['end_formatted'],
+        'remaining_time': data['remaining_formatted'],
     })
-
+    
+    
 @csrf_exempt
+@require_http_methods(["POST"])
 def get_period(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
-        timezone = data.get('timezone', 'UTC')  # Default to UTC if no timezone provided
-
         try:
-            # Validate the timezone
-            pytz.timezone(timezone)
+            data = json.loads(request.body)
+            timezone = data.get('timezone', 'UTC')
+            
+            pytz.timezone(timezone)  # Validate
+            
+            result = get_period_for_day_and_time(timezone=timezone)
+
+            return JsonResponse({
+                'day': result['day'],
+                'period_letter': result['period'],
+                'period_index': result['period_index'],
+                'start_formatted': result['start_formatted'],
+                'end_formatted': result['end_formatted'],
+                'remaining_time': result['remaining_formatted']
+            })
         except pytz.UnknownTimeZoneError:
             return JsonResponse({"error": "Invalid Time Zone"}, status=400)
-
-        # Get the period based on the provided timezone
-        today, period_letter, period_index = get_period_for_day_and_time(timezone=timezone)
-
-        return JsonResponse({
-            'day': today,
-            'period_letter': period_letter,
-            'period_index': period_index
-        })
-
+        except Exception:
+            return JsonResponse({"error": "Invalid request"}, status=400)
+    
     return JsonResponse({"error": "Invalid request method"}, status=405)
 
 
@@ -71,6 +78,10 @@ def donate(request):
     return render(request, 'donate.html')
 
 
+def contact(request):
+    return render(request, 'contact.html')
+
+# ===============================================================================================
 
 def main_page(request, id=None, type=None):
 
@@ -123,7 +134,6 @@ def main_page(request, id=None, type=None):
 
     # --------------------yearly_cycle- ends-------------------
 
-    today, current_period_letter, period_index = get_period_for_day_and_time(timezone=timezone)
 
     periods = Period.objects.all()  # Retrieve all periods
     period = None
@@ -140,29 +150,32 @@ def main_page(request, id=None, type=None):
         period = get_object_or_404(Period, id=id)
     elif id and type == 'yearlyperiod':
         yearlyperiod = get_object_or_404(YearlyPeriod, id=id)
+        
+        
+    period_data = get_period_for_day_and_time(timezone=timezone)     
 
 
     context = {
         'periods': periods,
-        'selected_period': period,  # Pass the selected period details to the template
-
-        # -----------# for periods autodisplay---------------------
-        'today': today,
-        'current_period_letter':current_period_letter ,
-        'period_index': period_index,
-        'cycle_periods': cycle_periods,
-        'start_date':  start_date,
-        "month_input":month_input,
-        'date_input':date_input,
-        'yearlyperiods':yearlyperiods,
-        'selected_yearlyperiod': yearlyperiod,
-
+        'selected_period': period,
         
+        # Updated context variables:
+        'today': period_data['day'],
+        'current_period_letter': period_data['period'],
+        'period_index': period_data['period_index'],
+        'start_formatted': period_data['start_formatted'],
+        'end_formatted': period_data['end_formatted'],
+        'remaining_time': period_data['remaining_formatted'],
+        
+        'cycle_periods': cycle_periods,
+        'start_date': start_date,
+        "month_input": month_input,
+        'date_input': date_input,
+        'yearlyperiods': yearlyperiods,
+        'selected_yearlyperiod': yearlyperiod,
     }
 
     return render(request, 'main_page.html', context)
-
-
 
 
 
@@ -177,13 +190,12 @@ def tikkun(request):
         'year': date_info['year'],
         'month_code': date_info['month_code'],
         'month_code2': date_info['month_code2'],
-        'month_code3': date_info['month_code3'],
+        # 'month_code3': date_info['month_code3'],
         'montth'  : date_info['montth'],
         'gee'  : date_info['gee'],
         'date':date_info['date'],
 
         'yearlyperiods' : yearlyperiods,
-        # 'selected_yearlyperiod' :yearlyperiods
 
     }
     return render(request, 'tikkun.html', context)
@@ -379,18 +391,6 @@ def all_period(request):
 
 
 
-
-
-
-
-
-
-
-
-
-from django.shortcuts import render
-from pyluach import dates
-
 def get_zodiac_image(request):
     # Hebrew date today
     hebrew_date = dates.HebrewDate.today()
@@ -480,52 +480,5 @@ def destiny_number_view(request):
         'current_year': current_year
     }
 
-    # return render(request, 'destiny_number.html', context)
     return render(request, 'path_numbers.html', context)
-
-
-# def YearlyPeriod(request):
-
-# def yearly_cycle(request):
-
-#     hebrew_birthday = None
-
-#     # -----------jewish-birthday  script ---------------------
-
-#     if request.method == 'POST':
-#         # Get the single input field for the birthday (in YYYY-MM-DD format)
-#         birthday = request.POST.get('birthday')
-
-#         if birthday:
-#             try:
-#                 # Split the input to extract year, month, and day
-#                 year, month, day = map(int, birthday.split('-'))
-
-#                 # Create a Gregorian date using Python's datetime module
-#                 gregorian_birthday = datetime(year, month, day)
-
-#                 # Convert the Gregorian date to a Hebrew date using pyluach
-#                 hebrew_date = dates.GregorianDate(year, month, day).to_heb()
-
-#                 # Format the Hebrew date for display (day, month, year)
-#                 hebrew_birthday = f"{hebrew_date.day} {hebrew_date.month_name()} {hebrew_date.year}"
-
-#             except (ValueError, TypeError):
-#                 hebrew_birthday = "Invalid date format. Please use YYYY-MM-DD."
-                
-                
-    # -------------------birthday ends----------------------------
-
-
-    # date_info = hebrew_date_info()            
-    
-    # context = {
-    #     # 'current_day': today,
-    #     # 'current_period_letter': current_period_letter,
-    #     'hebrew_birthday':hebrew_birthday,
-       
-    #     # ------------------------------yearly_cycle------------
-    # }
-    
-    # return render(request, 'yearly_cycle.html', context)
 

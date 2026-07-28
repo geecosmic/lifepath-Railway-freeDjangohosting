@@ -1,148 +1,347 @@
-  <!-- Footer -->
-  <footer
-          class="text-center text-lg-start text-white"
-          style="background-color: #1c2331"
-          >
-    <!-- Section: Social media -->
-    <section
-             class="d-flex justify-content-between p-3"
-             style="background-color: #6351ce"
-             >
-      <!-- Left -->
-      <div class="pt-2">
-        <!-- <span>Get connected with us on </span> -->
-        <span style="flex: right;"><a href="{% url 'donate' %}">DONATE</a></span>
-
+{% load static %}
+<!-- Footer -->
+<footer id="site-footer">
+  <!-- Donate CTA Bar -->
+  <div class="donate-bar">
+    <div class="container">
+      <div class="d-flex align-items-center justify-content-center gap-2">
+        <i
+          class="bi bi-heart-fill"
+          style="color: var(--accent-crimson-light)"
+        ></i>
+        <span>Support our mission</span>
+        <a href="{% url 'donate' %}" class="donate-link"
+          >Make a Donation <i class="bi bi-arrow-right-short"></i
+        ></a>
       </div>
-      
-    </section>
-    <!-- Section: Social media -->
-
-    <!-- Section: Links  -->
-    <section class="">
-      <div class="container text-center text-md-start mt-5">
-        <!-- Grid row -->
-        <div class="row mt-3">
-          <!-- Grid column -->
-          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-            <!-- Content -->
-            <h6 class="text-uppercase fw-bold">Geecosmic Inc.</h6>
-            <hr
-                class="mb-4 mt-0 d-inline-block mx-auto"
-                style="width: 60px; background-color: #7c4dff; height: 2px"
-                />
-            <p>
-              <a class="text-warning" href="{% url 'privacy-page' %}">Privacy</a></h4>
-
-            </p>
-          </div>
-          <!-- Grid column -->
-
-          <!-- Grid column -->
-          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-2">
-            <!-- Links -->
-            <h6 class="text-uppercase fw-bold">Daily Periods</h6>
-            <hr
-                class="mb-4 mt-0 d-inline-block mx-auto"
-                style="width: 60px; background-color: #7c4dff; height: 2px"
-                />
-            <p>
-              <!-- <ul class="perd2"> -->
-                    
-                {% for period in periods %}
-                    <h6>
-                        <a href="{% url 'main_page_with_detail' type='period' id=period.id %}">{{ period.title }}</a>
-
-                    </h6>
-                {% endfor %}
-            
-            </p>
-            
-          </div>
-          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-2">
-            <!-- Links -->
-            <h6 class="text-uppercase fw-bold">Yearly Periods</h6>
-            <hr
-                class="mb-4 mt-0 d-inline-block mx-auto"
-                style="width: 60px; background-color: #7c4dff; height: 2px"
-                />
-            <p>
-              
-                    
-                {% for yearlyperiod in yearlyperiods %}
-                    <h6>
-                        <a href="{% url 'main_page_with_detail' type='yearlyperiod' id=yearlyperiod.id %}#here2">{{ yearlyperiod.title }}</a>
-
-                    </h6>
-                {% endfor %}
-            
-            </p>
-            
-          </div>
-          
-          <!-- Grid column -->
-
-          <!-- Grid column -->
-          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-            <!-- Links -->
-            <h6 class="text-uppercase fw-bold">Useful links</h6>
-            
-            <hr
-                class="mb-4 mt-0 d-inline-block mx-auto"
-                style="width: 60px; background-color: #7c4dff; height: 2px"
-                />
-                {% for category in categories %}
-                <p><a class="dr" href="{% url 'tikkun'%}"><i>Home</i></a>
-                </p>
-                {% endfor %}    
-            <p>
-              <a href="{% url 'tikkun'%}" class="text-white">Home</a> 
-            </p>
-            <p>
-              <a href="{% url 'path_numbers'%}" class="text-white">Numerology</a>
-            </p>
-            
-            <p>
-              <a href="#!" class="text-white">Help</a>
-            </p>
-          </div>
-          <!-- Grid column -->
-
-          <!-- Grid column -->
-          <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-            <!-- Links -->
-            <h6 class="text-uppercase fw-bold">Contact</h6>
-            <hr
-                class="mb-4 mt-0 d-inline-block mx-auto"
-                style="width: 60px; background-color: #7c4dff; height: 2px"
-                />
-            <p><i class="fas fa-home mr-3"></i> New York, NY 10012, US</p>
-            <p><i class="fas fa-envelope mr-3"></i> info@mysticalpath.online</p>
-            <p><i class="fas fa-phone mr-3"></i> +234 8136285727</p>
-            <p><i class="fas fa-print mr-3"></i> +234 8183884347</p>
-          </div>
-          
-          
-          <!-- Grid column -->
-        </div>
-        
-        <!-- Grid row -->
-      </div>
-      <div>
-        <!-- <h5><a href="/donate.html/"></a>DONATE</h5> -->
-      </div>
-    </section>
-    <!-- Section: Links  -->
-
-    <!-- Copyright -->
-    <div
-         class="text-center p-3"
-         style="background-color: rgba(0, 0, 0, 0.2)"
-         >
-      © Geecosmic INC. 2024 Copyright:
-      <a class="text-white" href="#"
-         ></a
-        >
     </div>
-    <!-- Copyright -->
-  </footer>
+  </div>
+
+  <!-- Main Footer -->
+  <div class="footer-main">
+    <div class="container">
+      <div class="row g-4">
+        <!-- Brand Column -->
+        <div class="col-lg-3 col-md-6">
+          <div class="footer-brand">
+          <img src="{% static 'images/logo.png' %}" alt="CoolLogo" style="height: 40px; margin-right: 5px;">
+
+            <span>ALEPHGEE ENTERPRISE</span>
+          </div>
+          <p class="footer-desc">
+            Exploring the mystical paths of Kabbalah, numerology, and spiritual
+            wisdom to illuminate your journey.
+          </p>
+          <a href="{% url 'privacy-page' %}" class="footer-link">
+            <i class="bi bi-shield-check me-1"></i>Privacy Policy
+          </a>
+        </div>
+
+        <!-- Daily Periods -->
+        <div class="col-lg-2 col-md-6">
+          <h6 class="footer-heading">Daily Periods</h6>
+          <ul class="footer-links">
+            {% for period in periods %}
+            <li>
+              <a
+                href="{% url 'main_page_with_detail' type='period' id=period.id %}"
+              >
+                <i class="bi bi-chevron-right"></i>{{ period.title }}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <!-- Yearly Periods -->
+        <div class="col-lg-2 col-md-6">
+          <h6 class="footer-heading">Yearly Periods</h6>
+          <ul class="footer-links">
+            {% for yearlyperiod in yearlyperiods %}
+            <li>
+              <a
+                href="{% url 'main_page_with_detail' type='yearlyperiod' id=yearlyperiod.id %}#here2"
+              >
+                <i class="bi bi-chevron-right"></i>{{ yearlyperiod.title }}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <!-- Useful Links -->
+        <div class="col-lg-2 col-md-6">
+          <h6 class="footer-heading">Useful Links</h6>
+          <ul class="footer-links">
+            {% for category in categories %}
+            <li>
+              <a href="{% url 'tikkun'%}"
+                ><i class="bi bi-chevron-right"></i>Home</a
+              >
+            </li>
+            {% endfor %}
+            <li>
+              <a href="{% url 'tikkun'%}"
+                ><i class="bi bi-chevron-right"></i>Home</a
+              >
+            </li>
+            <li>
+              <a href="{% url 'path_numbers'%}"
+                ><i class="bi bi-chevron-right"></i>Numerology</a
+              >
+            </li>
+            <li>
+              <a href="#!"><i class="bi bi-chevron-right"></i>Help</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div class="col-lg-3 col-md-6">
+          <h6 class="footer-heading">Contact</h6>
+          <ul class="footer-contact">
+            <li>
+              <i class="bi bi-geo-alt"></i>
+              <span>New York, NY 10012, US</span>
+            </li>
+            <li>
+              <i class="bi bi-envelope"></i>
+              <a href="mailto:info@mysticalpath.online"
+                >info@mysticalpath.online</a
+              >
+            </li>
+            <li>
+              <i class="bi bi-telephone"></i>
+              <a href="tel:+2348136285727">+234 813 628 5727</a>
+            </li>
+            <li>
+              <i class="bi bi-printer"></i>
+              <span>+234 818 388 4347</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Copyright -->
+  <div class="footer-copyright">
+    <div class="container">
+      <div
+        class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2"
+      >
+        <span>© ALEPHGEE ENTERPRISE 2024. All rights reserved.</span>
+        <span class="footer-credit"
+          >Crafted with
+          <i
+            class="bi bi-heart-fill"
+            style="color: var(--accent-crimson-light); font-size: 0.7rem"
+          ></i>
+          and Light</span
+        >
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  #site-footer {
+    --footer-bg: #0d0d14;
+    --footer-bg-secondary: #11111a;
+    --text-primary: #e8e6e1;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    --accent-gold: #c9a84c;
+    --accent-gold-light: #e0c16c;
+    --accent-crimson-light: #d4736f;
+    --border-subtle: rgba(255, 255, 255, 0.06);
+    --border-gold: rgba(201, 168, 76, 0.3);
+  }
+
+  /* Donate Bar */
+  .donate-bar {
+    background: linear-gradient(
+      90deg,
+      rgba(201, 168, 76, 0.1),
+      rgba(184, 84, 80, 0.1),
+      rgba(201, 168, 76, 0.1)
+    );
+    border-top: 1px solid var(--border-gold);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 0.875rem 0;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-family: "Inter", sans-serif;
+  }
+  .donate-bar span {
+    color: var(--text-primary);
+  }
+  .donate-link {
+    color: var(--accent-gold);
+    font-weight: 600;
+    margin-left: 0.5rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+  }
+  .donate-link:hover {
+    color: var(--accent-gold-light);
+    transform: translateX(3px);
+  }
+
+  /* Main Footer */
+  .footer-main {
+    background: var(--footer-bg);
+    padding: 4rem 0 3rem;
+  }
+
+  /* Brand */
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+  }
+  .footer-brand i {
+    color: var(--accent-gold);
+    font-size: 1.6rem;
+  }
+  .footer-desc {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+    max-width: 280px;
+  }
+
+  /* Headings */
+  .footer-heading {
+    color: var(--text-primary);
+    font-family: "Inter", sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+    position: relative;
+    padding-bottom: 0.75rem;
+  }
+  .footer-heading::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    background: var(--accent-gold);
+    border-radius: 2px;
+  }
+
+  /* Link Lists */
+  .footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .footer-links li {
+    margin-bottom: 0.6rem;
+  }
+  .footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: all 0.3s ease;
+  }
+  .footer-links a i {
+    font-size: 0.7rem;
+    color: var(--accent-gold);
+    opacity: 0;
+    transform: translateX(-5px);
+    transition: all 0.3s ease;
+  }
+  .footer-links a:hover {
+    color: var(--text-primary);
+    transform: translateX(3px);
+  }
+  .footer-links a:hover i {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Contact List */
+  .footer-contact {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .footer-contact li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 0.875rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+  .footer-contact li i {
+    color: var(--accent-gold);
+    font-size: 1rem;
+    margin-top: 0.15rem;
+    flex-shrink: 0;
+  }
+  .footer-contact li a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .footer-contact li a:hover {
+    color: var(--accent-gold);
+  }
+
+  /* Generic Footer Link */
+  .footer-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    transition: color 0.3s ease;
+  }
+  .footer-link:hover {
+    color: var(--accent-gold);
+  }
+
+  /* Copyright */
+  .footer-copyright {
+    background: var(--footer-bg-secondary);
+    border-top: 1px solid var(--border-subtle);
+    padding: 1.25rem 0;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-family: "Inter", sans-serif;
+  }
+  .footer-credit {
+    font-size: 0.8rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 767px) {
+    .footer-main {
+      padding: 2.5rem 0 2rem;
+    }
+    .footer-heading {
+      margin-top: 0.5rem;
+    }
+    .donate-bar {
+      font-size: 0.85rem;
+    }
+  }
+</style>

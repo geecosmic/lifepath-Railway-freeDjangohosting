@@ -34,5 +34,5 @@ class YearlyPeriod(models.Model):
     return self.title
 
   
-  class Meta:  
-    ordering = ['-id']  # Order by created_at descending  
+  # class Meta:  
+  #   ordering = ['-id']  # Order by created_at descending  

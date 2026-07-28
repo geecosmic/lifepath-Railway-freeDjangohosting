@@ -1,299 +1,685 @@
 {% load static %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+  
+  <!-- Bootstrap 5.3 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
-    <title>Life Numbers</title>
+  <title>Life Numbers</title>
 
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #111118;
+      --bg-card: #13131f;
+      --bg-input: #0f0f18;
+      --text-primary: #e8e6e1;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      --accent-gold: #c9a84c;
+      --accent-gold-light: #e0c16c;
+      --accent-crimson: #b85450;
+      --accent-crimson-light: #d4736f;
+      --border-subtle: rgba(255, 255, 255, 0.06);
+      --border-gold: rgba(201, 168, 76, 0.3);
+    }
 
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    <style>
-      body{
-        background-color: black;
-        color: azure;
-        margin: auto;
-        overflow-x: hidden;
-      }
-      input{
-        border: 2px solid green;
-        border-radius: 23px;
-        padding: 3px;
-        margin: 1px;
-      }
-      .container{
-        text-align: center;
-      }
-      .colo{
-        border-right: 2px solid green;
-      }
-      .pp{
-        margin-bottom: 10px;
-        border: 5px solid rgb(21, 0, 128);
-        font-size: 25px;
-        font-weight: 800;
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
 
-      }
-     
-      .form-control{
-        width: 170px;
-      }
-    </style>
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
 
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-primary); }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent-gold); }
 
-  </head>
-    
- 
+    /* Hero Banner */
+    .hero-banner {
+      background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-card) 100%);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 4rem 0 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-banner::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-label {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-family: 'Inter', sans-serif;
+      margin-bottom: 0.5rem;
+    }
+    .hero-year {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 8vw, 5rem);
+      font-weight: 700;
+      color: var(--accent-gold);
+      line-height: 1;
+      text-shadow: 0 0 40px rgba(201,168,76,0.3);
+    }
+    .hero-sub {
+      color: var(--text-secondary);
+      margin-top: 0.75rem;
+      font-size: 1.05rem;
+    }
 
+    /* Glass Cards */
+    .calc-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 2rem;
+      height: 100%;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .calc-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+      border-color: var(--border-gold);
+    }
+    .calc-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .calc-card:hover::before {
+      opacity: 0.6;
+    }
+    .calc-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(201,168,76,0.1);
+      border: 1px solid var(--border-gold);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-gold);
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+    .calc-title {
+      font-size: 1.3rem;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+    .calc-desc {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Inputs */
+    .form-control-custom {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 0.65rem 1rem;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      margin-bottom: 0.75rem;
+    }
+    .form-control-custom::placeholder {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    .form-control-custom:focus {
+      outline: none;
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
+      background: var(--bg-primary);
+    }
+    /* Remove number spinners */
+    .form-control-custom::-webkit-outer-spin-button,
+    .form-control-custom::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Buttons */
+    .btn-gold {
+      background: linear-gradient(135deg, var(--accent-gold), #a88a3a);
+      color: #0a0a0f;
+      border: none;
+      padding: 0.65rem 1.5rem;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      width: 100%;
+      transition: all 0.3s ease;
+      letter-spacing: 0.02em;
+    }
+    .btn-gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(201,168,76,0.3);
+      color: #0a0a0f;
+    }
+    .btn-outline-gold {
+      background: transparent;
+      color: var(--accent-gold);
+      border: 1px solid var(--border-gold);
+      padding: 0.65rem 2rem;
+      border-radius: 10px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    .btn-outline-gold:hover {
+      background: var(--accent-gold);
+      color: #0a0a0f;
+    }
+
+    /* Result Display */
+    .result-box {
+      margin-top: 1.5rem;
+      padding: 1.25rem;
+      background: rgba(201,168,76,0.05);
+      border: 1px solid var(--border-gold);
+      border-radius: 12px;
+      text-align: center;
+      animation: fadeInUp 0.5s ease;
+    }
+    .result-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.25rem;
+      font-family: 'Inter', sans-serif;
+    }
+    .result-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      line-height: 1;
+      text-shadow: 0 0 30px rgba(201,168,76,0.2);
+    }
+
+    /* Destiny Section */
+    .destiny-section {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 4rem 0;
+      position: relative;
+    }
+    .destiny-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+    }
+    .destiny-input {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    /* Accordion / How To */
+    .howto-section {
+      padding: 4rem 0;
+    }
+    .howto-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: border-color 0.3s ease;
+    }
+    .howto-card:hover {
+      border-color: var(--border-gold);
+    }
+    .howto-header {
+      padding: 1.25rem 1.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: transparent;
+      border: none;
+      width: 100%;
+      color: var(--text-primary);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+    .howto-header:hover {
+      color: var(--accent-gold);
+    }
+    .howto-header i {
+      transition: transform 0.3s ease;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    .howto-header:not(.collapsed) i {
+      transform: rotate(180deg);
+      color: var(--accent-gold);
+    }
+    .howto-body {
+      padding: 0 1.5rem 1.5rem;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+
+    /* Divider */
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-gold), transparent);
+      margin: 0 auto;
+      width: 40%;
+      opacity: 0.4;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive */
+    @media (max-width: 991px) {
+      .calc-card { margin-bottom: 1.5rem; }
+    }
+  </style>
+</head>
 
 <body>
-    {% include "nav.html"%}
+  {% include "nav.html" %}
 
-   
-<div class="container-fluid"  style="height: 100vh;">
-  <div>
-    <h4 class="mt-4 mb-3 text-light"><center>Universal year Number (Current Year) for {{current_yearx}} is : <b class="text-warning h2">{{current_year}}</b></center></h4>
-  </div>  
-  <br>
-  <div class="container-fluid mt-4 text-center">
-    <div class="row">
-      <div class="col-sm-3 colo">
-        <h5 class="mt-4 mb-3"><center>Calculate Your Life Path & Sun Number</center></h5>
-        
-        <form method="POST" action=""  id ='time-form'>
-          {% csrf_token %}
-          <input type="number" name="day" placeholder="day (1 - 31)"  required autocomplete="off">
-          <input type="number" name="month" placeholder="month (1 - 12)" required autocomplete="off">
-          <input type="number" name="year" placeholder="year (1900)" required autocomplete="off"><br>
-          <button onclick="unhideElement()" class="form-control btn btn-secondary mt-3" type="submit">Send</button>
-        </form><br><br>
-      <div>
-        {% if result %}
-        <h5 id='result-heading'>Your LIFE Path Number is:<p class="pp text-warning">{{ result }}</p></h5>
-        {% endif %}
-      </div>
-
-      <div>
-        {% if result2 %}
-        <h5 id='result-list'>Your SUN Number is: <p class="pp text-warning">{{ result2 }}</p></h5>
-        {% endif %}
-      </div>
-      </div>
-      <!--------------- PERSONAL-YEAR -->
-
-      <div class="col-sm-3 colo">
-        <h5 class="mt-4 mb-3"><center>Calculate Your Personal Year Number</center></h5>
-        <form method="POST" action="" id="personal_year">
-          {% csrf_token %}
-          <input type="number" name="day2" placeholder="day (1 - 31)" required autocomplete="off">
-          <input type="number" name="month2" placeholder="month (1 - 12)" required autocomplete="off">
-          <input type="number" name="year2" placeholder="current year" required autocomplete="off"><br>
-          <button class="form-control btn btn-secondary mt-3" type="submit">Send</button>
-        </form><br><br>
-
-    <div class="mt-2">
-        {% if result_py %}
-        <h4 id='result-heading'>Your Personal Year Number is:<p class="pp">{{ result_py }}</p> </h4>
-        {% endif %}
+  <!-- Hero Banner -->
+  <section class="hero-banner fade-in">
+    <div class="container position-relative">
+      <div class="hero-label">Universal Year Number</div>
+      <div class="hero-year">{{ current_year }}</div>
+      <div class="hero-sub">Current Year: <b class="text-warning">{{ current_yearx }}</b></div>
     </div>
-        
-      
-      </div>
-      <div id="targetDiv" class="col-sm-3 colo">
-        <h5 class="mt-4 mb-3"><center>Calculate Your Personal Month Number</center></h5>
-        <form method="POST" action="">
-          {% csrf_token %}
-          <!-- <input type="text" name="day" placeholder="day"> -->
-          <input type="number" name="month3" placeholder="Current month(1-12)" autocomplete="off">
-          <input type="number" name="year3" placeholder="Personal Year Number" autocomplete="off"><br>
-          <button class="form-control btn btn-secondary mt-3" type="submit">Send</button>
-        </form><br>
-    
-        <div class="mt-3">
-        {% if result3 %}
-        <h4 id='result-heading'>Your Personal Month Number Is:<p class="pp">{{ result3 }}</p> </h4>
-        {% endif %}
-    
-      </div>
-      </div>
-      <div class="col-sm-3">
-        <h5 class="mt-4 mb-3"><center>Calculate Your Personal Day Number</center></h5>
-        <form method="POST" action="">
-          {% csrf_token %}
-          <!-- <input type="text" name="day" placeholder="day"> -->
-          <input type="number" name="month4" placeholder="Present day" autocomplete="off">
-          <input type="number" name="year4" placeholder="Personal Month Number" autocomplete="off"><br>
-          <button class="form-control btn btn-secondary mt-3" type="submit">Send</button>
-        </form><br>
-    
-        <div class="mt-3">
-        {% if result4 %}
-        <h4 id='result-heading'>Your Personal Day Number is:<p class="pp">{{ result4 }}</p> </h4>
-        {% endif %}
-      </div>
-    </div>
-      </div>
-  </div>
-  <br><br>
-  <center><button style="width: 180px;color: #ea5a06;font-weight: 900;"  class="btn btn-warning mb-5" type="button" onclick="resetForms()">Refresh</button></center>
-  
-  <!-- <hr style="background-color: white; margin-bottom: 50px;"> -->
-  <img class="imgw" src="{% static 'images2/line2.png' %}" width="100%" alt="Image"> <br>
+  </section>
 
-
-  <!-- ---------------DESTINY NUMBER--------------- -->
-  <div class="container mt-5 mb-5">
-    <h2 class="mb-4">Destiny Number Calculator</h2>
+  <!-- Calculators Grid -->
+  <section class="py-5">
+    <div class="container">
      
-    
-    <!-- Bootstrap form -->
-    <form method="POST" action="{% url 'destiny_number' %}">
-        {% csrf_token %}
-        
-        <!-- Full Name Field -->
-        <div class="mb-3">
-            <label for="full_name" class="form-label">Enter your full name</label>
-            <center><input style="width: 300px;" type="text" name="full_name" id="full_name" class="form-control" placeholder="Full Name" value="" required autocomplete="off"></center>
+      <div class="text-center mb-5 fade-in">
+        <h2 style="font-size: 2rem; color: var(--text-primary);">Numerology Calculators</h2>
+        <div style="width: 50px; height: 2px; background: var(--accent-gold); margin: 1rem auto;"></div>
+        <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto;">Discover the hidden numbers that shape your destiny, energy, and spiritual path.</p>
+      </div>
+
+      <div class="text-center mt-3 mb-3 fade-in">
+        <button class="btn-outline-gold" type="button" onclick="resetForms()">
+          <i class="bi bi-arrow-counterclockwise me-2"></i>Reset All
+        </button>
+      </div>
+
+      <div class="row g-4">
+        <!-- Life Path & Sun -->
+        <div class="col-lg-6 fade-in">
+          <div class="calc-card">
+            <div class="calc-icon"><i class="bi bi-sun"></i></div>
+            <h3 class="calc-title">Life Path & Sun Number</h3>
+            <p class="calc-desc">Enter your birth date to reveal your core life purpose and sun energy.</p>
+            
+            <form method="POST" action="" id="time-form">
+              {% csrf_token %}
+              <div class="row g-2">
+                <div class="col-4">
+                  <input type="number" name="day" class="form-control-custom" placeholder="Day" min="1" max="31" required autocomplete="off">
+                </div>
+                <div class="col-4">
+                  <input type="number" name="month" class="form-control-custom" placeholder="Month" min="1" max="12" required autocomplete="off">
+                </div>
+                <div class="col-4">
+                  <input type="number" name="year" class="form-control-custom" placeholder="Year" required autocomplete="off">
+                </div>
+              </div>
+              <button onclick="unhideElement()" class="btn-gold" type="submit">
+                <i class="bi bi-calculator me-2"></i>Calculate
+              </button>
+            </form>
+
+            {% if result %}
+            <div class="result-box" id="result-life-path">
+              <div class="result-label">Your Life Path Number</div>
+              <div class="result-number">{{ result }}</div>
+            </div>
+            {% endif %}
+
+            {% if result2 %}
+            <div class="result-box mt-3" id="result-sun">
+              <div class="result-label">Your Sun Number</div>
+              <div class="result-number">{{ result2 }}</div>
+            </div>
+            {% endif %}
+          </div>
         </div>
-        
-        <!-- Submit Button -->
-        <button id="scrollButton" type="submit" class="btn btn-primary">Calculate</button>
-    </form>
-    
-    <!-- Result Display -->
-    {% if result_destiny %}
-        <h3 id='result-heading' class="mt-4">Your Destiny Number is: <strong class="text-warning">{{ result_destiny }}</strong></h3>
-    {% endif %}
-  </div>
 
-  <!-- ----------CALCULATIONS END----------------------- -->
+        <!-- Personal Year -->
+        <div class="col-lg-6 fade-in">
+          <div class="calc-card">
+            <div class="calc-icon"><i class="bi bi-calendar-date"></i></div>
+            <h3 class="calc-title">Personal Year Number</h3>
+            <p class="calc-desc">Understand the theme and energy of your current year cycle.</p>
+            
+            <form method="POST" action="" id="personal_year">
+              {% csrf_token %}
+              <div class="row g-2">
+                <div class="col-4">
+                  <input type="number" name="day2" class="form-control-custom" placeholder="Day" min="1" max="31" required autocomplete="off">
+                </div>
+                <div class="col-4">
+                  <input type="number" name="month2" class="form-control-custom" placeholder="Month" min="1" max="12" required autocomplete="off">
+                </div>
+                <div class="col-4">
+                  <input type="number" name="year2" class="form-control-custom" placeholder="Current Year" required autocomplete="off">
+                </div>
+              </div>
+              <button class="btn-gold" type="submit">
+                <i class="bi bi-calculator me-2"></i>Calculate
+              </button>
+            </form>
 
+            {% if result_py %}
+            <div class="result-box" id="result-py">
+              <div class="result-label">Your Personal Year Number</div>
+              <div class="result-number">{{ result_py }}</div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
 
-  
-<!-- <-------------------!-- ads-------------------------------------------- --> 
+        <!-- Personal Month -->
+        <div class="col-lg-6 fade-in">
+          <div class="calc-card">
+            <div class="calc-icon"><i class="bi bi-calendar-month"></i></div>
+            <h3 class="calc-title">Personal Month Number</h3>
+            <p class="calc-desc">Discover the monthly vibration influencing your decisions.</p>
+            
+            <form method="POST" action="">
+              {% csrf_token %}
+              <div class="row g-2">
+                <div class="col-6">
+                  <input type="number" name="month3" class="form-control-custom" placeholder="Current Month (1-12)" min="1" max="12" autocomplete="off">
+                </div>
+                <div class="col-6">
+                  <input type="number" name="year3" class="form-control-custom" placeholder="Personal Year No." autocomplete="off">
+                </div>
+              </div>
+              <button class="btn-gold" type="submit">
+                <i class="bi bi-calculator me-2"></i>Calculate
+              </button>
+            </form>
 
+            {% if result3 %}
+            <div class="result-box" id="result-pm">
+              <div class="result-label">Your Personal Month Number</div>
+              <div class="result-number">{{ result3 }}</div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
 
-<!-- -----------------------ad-ends----------------------------------------- -->
+        <!-- Personal Day -->
+        <div class="col-lg-6 fade-in">
+          <div class="calc-card">
+            <div class="calc-icon"><i class="bi bi-calendar-day"></i></div>
+            <h3 class="calc-title">Personal Day Number</h3>
+            <p class="calc-desc">Find out the daily energy available to you right now.</p>
+            
+            <form method="POST" action="">
+              {% csrf_token %}
+              <div class="row g-2">
+                <div class="col-6">
+                  <input type="number" name="month4" class="form-control-custom" placeholder="Present Day" autocomplete="off">
+                </div>
+                <div class="col-6">
+                  <input type="number" name="year4" class="form-control-custom" placeholder="Personal Month No." autocomplete="off">
+                </div>
+              </div>
+              <button class="btn-gold" type="submit">
+                <i class="bi bi-calculator me-2"></i>Calculate
+              </button>
+            </form>
 
+            {% if result4 %}
+            <div class="result-box" id="result-pd">
+              <div class="result-label">Your Personal Day Number</div>
+              <div class="result-number">{{ result4 }}</div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
 
-
-<!-- <hr style="background-color: white; margin-bottom: 50px;"> -->
-<img class="imgw" src="{% static 'images2/line2.png' %}" width="100%" alt="Image"> <br> <br>
-
-
-<div class="container">
-  <h4>HOW TO CALCULATE YOUR LIFE PATH NUMBER</h4>
-  <p>To calculate your Life Path Number, you need to add together the digits of your 
-    birth date (month, day, and year) and then reduce the sum to a single digit or a 
-    master number (11 or 22). For example, if your birthday is August 18, 1989, you 
-    would convert the month (8), the day (1 + 8 = 9), and the year (1 + 9 + 8 + 9 = 27 → 2 + 7 = 9) to 
-    single digits, then add them together (8 + 9 + 9 = 26 → 2 + 6 = 8). Thus, your Life Path Number would 
-    be 8.</p>
-</div>
-
-<div class="container">
-  <h4>HOW TO CALCULATE YOUR SUN NUMBER</h4>
-  <P>To calculate your Sun Number in numerology, add the day and month of your birth. 
-    Then, reduce the total to a single digit between 1 and 9 (note that master numbers 
-    such as 11 and 22 are not reduced). For example, if you were born on August 5, 
-    you would calculate it as 8 (month) + 5 (day) = 13, which reduces to 1 + 3 = 4.</P>
-</div>
-<div class="container">
-
-    <div>
-    <h4 class="mt-4 mb-3"><center>How To Calculate Your Personal Year Number</center></h4>
+      <!-- Refresh Button -->
+      {% comment %} <div class="text-center mt-5 fade-in">
+        <button class="btn-outline-gold" type="button" onclick="resetForms()">
+          <i class="bi bi-arrow-counterclockwise me-2"></i>Reset All
+        </button>
+      </div> {% endcomment %}
     </div>
-    <p>
-      To calculate your personal year number, sum your birth day, birth month, 
-      and the current year (or the year you want to analyze). For example, if your 
-      birthday is July 15 and you are calculating for 2024, you would add 15 (day) + 7 (month) + 2024 (year). 
-      Then, reduce the total to a single digit by adding the digits together, which follows a nine-year cycle.
-    </p>
-    
-  
-</div>
-<div class="container">
-   
-    <h4 class="mt-4 mb-3"><center>How To Calculate Your Personal Month Number</center></h4>
+  </section>
 
-    <p>
-      your personal month number, 
-      sum the reduced month digit and your personal year number, 
-      e.g. your personal year number is 9 and February is the month, 
-      you need to add year digit 9 to the month number 2 (corresponds to February). 
-      The sum is 11, and then you reduce it. So, February has a number 1+1 = 2, 
-      for an individual with year number 9.
-    </p>
-   
-</div>
-  <hr>
-<div class="container">
-      <h4 class="mt-4 mb-3"><center>How To Calculate Your Personal Day Number</center></h4>
+  <div class="section-divider"></div>
 
-    <p>
-      In order to find your personal day number: add a number of the day to the 
-      personal month number, in case of need - reduce the number to a single digit.
-    </p>
-</div> 
+  <!-- Destiny Number -->
+  <section class="destiny-section fade-in">
+    <div class="container">
+      <div class="text-center mb-4">
+        <div class="calc-icon mx-auto"><i class="bi bi-stars"></i></div>
+        <h2 style="font-size: 2.2rem; color: var(--text-primary);">Destiny Number Calculator</h2>
+        <p style="color: var(--text-muted); max-width: 450px; margin: 0.5rem auto 2rem;">Your name holds a vibrational frequency. Decode it below.</p>
+      </div>
 
-<!-- <br><br> -->
+      <form method="POST" action="{% url 'destiny_number' %}" class="destiny-input">
+        {% csrf_token %}
+        <div class="mb-3">
+          <input type="text" name="full_name" id="full_name" class="form-control-custom text-center" style="font-size: 1.1rem; padding: 0.85rem;" placeholder="Enter your full name" required autocomplete="off">
+        </div>
+        <div class="text-center">
+          <button id="scrollButton" type="submit" class="btn-gold" style="width: auto; padding: 0.65rem 2.5rem;">
+            <i class="bi bi-magic me-2"></i>Reveal Destiny
+          </button>
+        </div>
+      </form>
 
+      {% if result_destiny %}
+      <div class="result-box mt-4 mx-auto" style="max-width: 300px;" id="result-destiny">
+        <div class="result-label">Your Destiny Number</div>
+        <div class="result-number">{{ result_destiny }}</div>
+      </div>
+      {% endif %}
+    </div>
+  </section>
 
+  <div class="section-divider"></div>
 
+  <!-- How To Section -->
+  <section class="howto-section">
+    <div class="container">
+      <div class="text-center mb-5 fade-in">
+        <h2 style="font-size: 2rem; color: var(--text-primary);">How to Calculate</h2>
+        <div style="width: 50px; height: 2px; background: var(--accent-gold); margin: 1rem auto;"></div>
+      </div>
 
+      <div class="row g-3 justify-content-center fade-in">
+        <div class="col-lg-10">
+          
+          <!-- Life Path -->
+          <div class="howto-card mb-3">
+            <button class="howto-header" type="button" data-bs-toggle="collapse" data-bs-target="#howto-lifepath">
+              <span><i class="bi bi-1-circle me-2" style="color: var(--accent-gold);"></i>Life Path Number</span>
+              <i class="bi bi-chevron-down"></i>
+            </button>
+            <div class="collapse show" id="howto-lifepath">
+              <div class="howto-body">
+                Add together the digits of your birth date (month, day, and year) and reduce the sum to a single digit or a master number (11 or 22). For example, if your birthday is August 18, 1989: month (8) + day (1+8=9) + year (1+9+8+9=27 → 2+7=9). Then 8 + 9 + 9 = 26 → 2 + 6 = <strong style="color: var(--accent-gold);">8</strong>.
+              </div>
+            </div>
+          </div>
 
+          <!-- Sun Number -->
+          <div class="howto-card mb-3">
+            <button class="howto-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#howto-sun">
+              <span><i class="bi bi-2-circle me-2" style="color: var(--accent-gold);"></i>Sun Number</span>
+              <i class="bi bi-chevron-down"></i>
+            </button>
+            <div class="collapse" id="howto-sun">
+              <div class="howto-body">
+                Add the day and month of your birth, then reduce to a single digit between 1 and 9 (master numbers 11 and 22 are not reduced). Example: born August 5 → 8 + 5 = 13 → 1 + 3 = <strong style="color: var(--accent-gold);">4</strong>.
+              </div>
+            </div>
+          </div>
 
-  
+          <!-- Personal Year -->
+          <div class="howto-card mb-3">
+            <button class="howto-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#howto-year">
+              <span><i class="bi bi-3-circle me-2" style="color: var(--accent-gold);"></i>Personal Year Number</span>
+              <i class="bi bi-chevron-down"></i>
+            </button>
+            <div class="collapse" id="howto-year">
+              <div class="howto-body">
+                Sum your birth day, birth month, and the current year. Then reduce the total to a single digit. Example: birthday July 15, calculating for 2024 → 15 + 7 + 2024 = 2046 → 2 + 0 + 4 + 6 = <strong style="color: var(--accent-gold);">12</strong> → 1 + 2 = <strong style="color: var(--accent-gold);">3</strong>.
+              </div>
+            </div>
+          </div>
+
+          <!-- Personal Month -->
+          <div class="howto-card mb-3">
+            <button class="howto-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#howto-month">
+              <span><i class="bi bi-4-circle me-2" style="color: var(--accent-gold);"></i>Personal Month Number</span>
+              <i class="bi bi-chevron-down"></i>
+            </button>
+            <div class="collapse" id="howto-month">
+              <div class="howto-body">
+                Sum the reduced month digit and your personal year number. Example: personal year is 9 and February is the month → 9 + 2 = 11 → 1 + 1 = <strong style="color: var(--accent-gold);">2</strong>.
+              </div>
+            </div>
+          </div>
+
+          <!-- Personal Day -->
+          <div class="howto-card mb-3">
+            <button class="howto-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#howto-day">
+              <span><i class="bi bi-5-circle me-2" style="color: var(--accent-gold);"></i>Personal Day Number</span>
+              <i class="bi bi-chevron-down"></i>
+            </button>
+            <div class="collapse" id="howto-day">
+              <div class="howto-body">
+                Add the number of the day to your personal month number. Reduce to a single digit if needed.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% include 'footer.html' %}
+
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Scroll to target -->
   <script>
-        (function (d, z, s) {
-            s.src = 'https://' + d + '/400/' + z;
-            try {
-                // Append the ad script to the ad container
-                document.getElementById('ad-container').appendChild(s);
-            } catch (e) {
-                console.error("Ad placement failed:", e);
-            }
-        })('vemtoutcheeg.com', 8722571, document.createElement('script'));
-    </script>
+    document.getElementById('scrollButton').onclick = function() {
+      document.getElementById('targetDiv').scrollIntoView({ behavior: 'smooth' });
+    };
+  </script>
 
-
-{% include 'footer.html' %}
-
-
-
-
-
-<script>  
-  document.getElementById('scrollButton').onclick = function() {  
-      document.getElementById('targetDiv').scrollIntoView({ behavior: 'smooth' });  
-  };  
-</script>
-
-<script>
-  function resetForms() {
-      // Reset both forms
+  <!-- Reset Forms -->
+  <script>
+    function resetForms() {
       document.getElementById('time-form').reset();
-      // document.getElementById('cycle-form').reset();
+      document.getElementById('personal_year').reset();
 
-      // Clear the results section without affecting Bootstrap elements
-      const resultHeading = document.getElementById('result-heading');
-      const resultList = document.getElementById('result-list');
+      const ids = ['result-life-path', 'result-sun', 'result-py', 'result-pm', 'result-pd', 'result-destiny'];
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.remove();
+      });
+    }
+  </script>
 
-      if (resultHeading) {
-          resultHeading.remove();
+  <!-- Ad Script -->
+  <script>
+    (function (d, z, s) {
+      s.src = 'https://' + d + '/400/' + z;
+      try {
+        document.getElementById('ad-container').appendChild(s);
+      } catch (e) {
+        console.error("Ad placement failed:", e);
       }
+    })('vemtoutcheeg.com', 8722571, document.createElement('script'));
+  </script>
 
-      if (resultList) {
-          resultList.remove();
-      }
-  }
-</script>
-
-
- <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+  <!-- Scroll Animation -->
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
 </body>
 </html>
