@@ -1,6 +1,9 @@
 
 from django.contrib import messages
+import requests   # ← this one (the real library)
 from django.shortcuts import redirect, render
+
+from lifepath import settings
 # from rest_framework.decorators import api_view
 from .utils import reduce_to_single_digit,get_period_for_day_and_time,get_period_for_day_and_time
 from datetime import datetime, timedelta
@@ -8,7 +11,7 @@ from django.views.generic import View,ListView,CreateView,DetailView,UpdateView
 from .forms import DateConversionForm
 from django.shortcuts import render, get_object_or_404
 from .models import Period,YearlyPeriod
-from django.http import JsonResponse
+from django.http import JsonResponse, request
 import json
 
 from django.views.decorators.csrf import csrf_exempt
@@ -78,8 +81,70 @@ def donate(request):
     return render(request, 'donate.html')
 
 
+# def contact(request):
+#     return render(request, 'contact.html')
+
 def contact(request):
+    
+    if request.method == 'POST':
+        print("=" * 50)
+        print("POST received in contact view")
+        print("POST data:", dict(request.POST))
+        
+        honeypot = request.POST.get('additional_details')
+        if honeypot:
+            print("Honeypot triggered!")
+            messages.success(request, "Your message has been sent successfully!")
+            return redirect('contact')
+
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+        
+        print(f"Name: {name}, Email: {email}, Message: {message}")
+        
+        payload = {
+            "name": name,
+            "email": email,
+            "message": message
+        }
+        
+        try:
+            print("About to call Google Apps Script...")
+            print("URL:", settings.GOOGLE_APPS_SCRIPT_URL)
+            
+            response = requests.post(
+                settings.GOOGLE_APPS_SCRIPT_URL, 
+                json=payload, 
+                timeout=15,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            print("Status code:", response.status_code)
+            print("Response text:", response.text[:800])
+            
+            raw_text = response.text
+            
+            if "<!DOCTYPE html>" in raw_text or "html" in raw_text.lower():
+                messages.error(request, "Google Apps Script rejected the data.")
+                return redirect('contact')
+                
+            result = response.json()
+            
+            if result.get('success') or "Message sent" in raw_text:
+                messages.success(request, "Your message has been sent successfully!")
+            else:
+                messages.error(request, f"Google Script Error: {result.get('error', 'Unknown Error')}")
+                
+        except Exception as e:
+            print("EXCEPTION occurred:")
+            print(type(e).__name__, str(e))
+            messages.error(request, f"Failed to connect to engine: {e}")
+            
+        return redirect('contact')
+            
     return render(request, 'contact.html')
+
 
 # ===============================================================================================
 
